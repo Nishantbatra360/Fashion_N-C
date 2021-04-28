@@ -29,9 +29,12 @@
 <img class="align-center" src="wishlist.svg" height=30px width=30px/>
 <p class="default-font align-center">Wishlist</p>
 </div>
-<div class="item flex-vertical-center">
+<div class="item">
+<span class="cart-items-count default-font">1</span>
+<div class="flex-vertical-center">
 <img class="align-center" src="cart.svg" height=30px width=30px/>
 <p class="default-font align-center">Cart</p>
+</div>
 </div>
 </div>
 </Div>
