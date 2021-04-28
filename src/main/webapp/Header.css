@@ -2,7 +2,7 @@
 	display:flex;
 	flex-direction:row;
 	justify-content:space-between;
-	background-color:#F9D342;
+	background-color:#946000;
 	color: gray;
 	padding:10px;;
 }
@@ -11,10 +11,13 @@
 	align-self:center;
 	padding:10px;
 	margin-right: 20px;
+	border-radius:0.5vw;
+	color:snow;
+	font-size: 1.4vw;
 }
 
 .item:hover{
-	background-color:#C1272D;
+	background-color:#bd7b00;
 	transition:0.4s;
 }
 
@@ -46,4 +49,8 @@ input:focus {
 
 .align-center{
 	align-self: center;
+}
+
+.default-font{
+	font-size: 1vw;
 }

@@ -10,7 +10,7 @@
 <body>
 <Div class="header-container">
 <div class="header-container">
-<img style="margin-right: 30px;" src="logo.svg"/ alt="Fashion N & C" height=60pt width=60pt>
+<img style="margin-right: 4vw;" src="logo.svg"/ alt="Fashion N & C" height=60pt width=60pt>
 <div class="item">Men</div>
 <div class="item">Women</div>
 <div class="item">Boys</div>
@@ -23,15 +23,15 @@
 <div class="header-container">
 <div class="item flex-vertical-center">
 <img class="align-center" src="profile.svg" height=30px width=30px/>
-<p class="align-center">Profile</p>
+<p class="default-font align-center">Profile</p>
 </div>
 <div class="item flex-vertical-center">
 <img class="align-center" src="wishlist.svg" height=30px width=30px/>
-<p class="align-center">Wishlist</p>
+<p class="default-font align-center">Wishlist</p>
 </div>
 <div class="item flex-vertical-center">
 <img class="align-center" src="cart.svg" height=30px width=30px/>
-<p class="align-center">Cart</p>
+<p class="default-font align-center">Cart</p>
 </div>
 </div>
 </Div>
