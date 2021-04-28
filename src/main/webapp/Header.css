@@ -1,0 +1,46 @@
+.header-container{
+	display:flex;
+	flex-direction:row;
+	justify-content:space-between;
+	background-color:#F9D342;
+	color: gray;
+	padding:10px;
+}
+
+.item{
+	align-self:center;
+	padding:10px;
+	margin-right: 20px;
+}
+
+.item:hover{
+	background-color:#C1272D;
+	transition:0.4s;
+}
+
+.search-bar-container{
+	align-self: center;
+	background-color:white;
+	padding:10px;
+	border-radius: 8px;
+}
+
+input{
+	align-self:center;
+	background-color:transparent;
+	border:none;
+	caret-color:#F9D342;
+	font-size: 16px;
+}
+input:focus {
+	outline:none;
+}
+
+.flex-vertical-center{
+	display:flex;
+	flex-direction: column;
+}
+
+.align-center{
+	align-self: center;
+}
