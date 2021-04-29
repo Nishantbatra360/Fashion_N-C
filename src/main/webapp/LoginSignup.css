@@ -1,0 +1,64 @@
+.form-padding{
+    padding-top:50px;
+}
+.star
+{
+    color:red;
+}
+.field{
+    font-size: small;
+    color:red;
+}
+body{
+    display:grid;
+    overflow-x:hidden;
+}
+.header{
+    
+    position: relative;
+    width:100%;
+}
+.headerfont{
+    
+    font-family:algerian;
+    font-size: 50px;
+}
+.nav{
+    background-color: rgb(37, 39, 39);
+}
+.navitem a{
+    color:white;
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+li:hover{
+    background-color: rgba(37,39,39,0.7);
+}
+#noaccount:hover{
+cursor:pointer;
+}
+#haveaccount:hover{
+    cursor:pointer;
+}
+.nav-item a{
+    color:white;
+    text-decoration: none;
+    }
+    ul{
+    list-style: none;
+    }
+    li:hover{
+    background-color: rgba(37,39,39,0.7);
+    transition:0.8s;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .card-deck{
+            display: block;
+        }
+        .card-deck img{
+            width: 120px;
+        }
+    }
