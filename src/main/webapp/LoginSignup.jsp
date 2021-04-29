@@ -17,13 +17,13 @@
     <body onload="hide()">
     <jsp:include page="Header.jsp"></jsp:include>
         <div class="card-deck" style="border:hidden;">
-            <div class="card mb-2 form-padding" style="border:hidden;" id="image1">
+            <div class="card mb-2 form-padding" style="border:hidden;background:none;" id="image1">
                 <center>
                 <img id="i1" src="../IMAGES/login.png"><br>
                 <button id="b1" style="width: 100px;" type="button" class="btn btn-primary" onclick="showlogin()">User Login</button>
                 </center>
                 </div>
-            <div class="card mb-2 form-padding" style="border:hidden;" id="image2">
+            <div class="card mb-2 form-padding" style="border:hidden;background:none;" id="image2">
                 <center>
                 <img id="i2" src="../IMAGES/signup.png"><br>
                 <button id="b2" style="width:100px;" type="button" class="btn btn-secondary" onclick="showsignup()">User Sign-up</button>
@@ -33,7 +33,7 @@
         <div class="card-deck">
             <div class="card mb-2 form-padding" id="log">
                 <h4 class="card-title">Login</h4>
-                <form id="login-form">
+                <form id="login-form" action="Login">
                     <div class="form-group">
                         <label for="login-email">Email</label>
                         <input type="email" class="form-control" id="login-email" 
@@ -49,7 +49,7 @@
                         <label for="login-check" class="form-check-label">Remember me</label>
                     </div><br>
                     <span id="noaccount" onclick="showsignup()">Don't have an account?</span>
-                <center><button type="button" class="btn btn-primary" onclick="login()">Login</button></center>
+                <center><button type="submit" class="btn btn-primary">Login</button></center>
                 </form>
             </div>
             <div id="sign" class="card mb-2 form-padding">
