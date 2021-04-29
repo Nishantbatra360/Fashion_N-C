@@ -80,6 +80,7 @@ input:focus {
 	background-color:#bd7b00;
 	padding:30px;
 	border-radius:8px;
+	z-index: 99;
 }
 
 .anchor-design{
