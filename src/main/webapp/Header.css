@@ -12,9 +12,15 @@
 	padding:10px;
 	margin-right: 20px;
 	border-radius:0.5vw;
+}
+
+.customize-font-color{
 	color:snow;
-	font-size: 1.4vw;
 	cursor: pointer;
+}
+
+.customize-font-size{
+	font-size: 1.4vw;
 }
 
 .item:hover{
@@ -60,4 +66,35 @@ input:focus {
 	position:absolute;
 	margin-left:30px;
 	margin-top:-6px;
+}
+
+.profile:hover .profile-container{
+	display:block;
+	transition:0.4s;
+}
+
+.profile-container{
+	position:absolute;
+	display:none;
+	width: max-content;
+	background-color:#bd7b00;
+	padding:30px;
+	border-radius:8px;
+}
+
+.anchor-design{
+	border:2px solid #946000;
+	padding:10px;
+	border-radius: 6px;
+	text-decoration: none;
+}
+
+.anchor-design:hover{
+	transition:0.4s;
+	background-color:#946000;
+}
+
+.profile-items-container{
+	display:flex;
+	flex-direction: column;
 }
