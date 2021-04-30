@@ -7,7 +7,7 @@
 	padding:10px;;
 }
 
-.item{
+.header-item{
 	align-self:center;
 	padding:10px;
 	margin-right: 20px;
@@ -23,7 +23,7 @@
 	font-size: 1.4vw;
 }
 
-.item:hover{
+.header-item:hover{
 	background-color:#bd7b00;
 	transition:0.4s;
 }

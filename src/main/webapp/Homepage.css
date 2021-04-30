@@ -1,0 +1,6 @@
+@charset "ISO-8859-1";
+
+.items-container{
+	display:grid;
+	grid-template-columns:33.33% 33.33% 33.33%;
+}
