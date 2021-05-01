@@ -4,3 +4,11 @@
 	display:grid;
 	grid-template-columns:33.33% 33.33% 33.33%;
 }
+
+.items-container img{
+	width: 100%;
+}
+
+.image-card{
+	margin:10px;
+}
