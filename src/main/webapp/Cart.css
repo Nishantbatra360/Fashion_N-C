@@ -1,12 +1,13 @@
 .parent-container{
 	display:flex;
 	flex-direction: row;
-	max-width: 980px;
+	justify-content: center;
 }
 
 .products-container{
 	flex:1;
 	margin-right:20px;
+	max-width: 800px;
 }
 .items-count-and-total-container{
 	display:flex;
@@ -57,6 +58,10 @@
 .order-total-container>div{
 	display:flex;
 	flex-direction: row;
+	margin-top:20px;
+}
+.order-total-container>input{
+	margin-top:20px;
 }
 .flex-one{
 	flex:1;
@@ -64,4 +69,23 @@
 
 .margin-right{
 	margin-right: 40px;
+}
+
+.input-button{
+	padding:10px;
+	color:white;
+	border:none;
+	border-radius:4px;
+	letter-spacing:1px;
+	font-size:14px;
+	font-weight:600;
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+.red-background{
+	background-color: red;
+}
+.green-background{
+	background-color: green;
 }
