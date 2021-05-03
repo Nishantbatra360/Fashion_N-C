@@ -38,14 +38,14 @@
 	border-radius: 8px;
 }
 
-input{
+.search-bar-container>input{
 	align-self:center;
 	background-color:transparent;
 	border:none;
 	caret-color:#F9D342;
 	font-size: 16px;
 }
-input:focus {
+.search-bar-container>input:focus {
 	outline:none;
 }
 

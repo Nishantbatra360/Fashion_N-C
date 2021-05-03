@@ -52,10 +52,12 @@ public class FetchBanner extends HttpServlet {
 			myStmt=myConn.createStatement();
 			myRs=myStmt.executeQuery(sql);
 			
+			boolean isFirst=true;
 			while(myRs.next()) {
 				String firstName=myRs.getString("type");
 				String path=myRs.getString("path");
 				
+				if(isFirst) {
 				out.println("<div class=\"item active\">\r\n"
 						+ "        <img src=\""+path+"\""+" alt=\"Los Angeles\" style=\"width:100%;\">\r\n"
 						+ "        <div class=\"carousel-caption\">\r\n"
@@ -63,6 +65,17 @@ public class FetchBanner extends HttpServlet {
 						+ "          <p>LA is always so much fun!</p>\r\n"
 						+ "        </div>\r\n"
 						+ "      </div>");
+				}
+				else {
+					out.println("<div class=\"item\">\r\n"
+							+ "        <img src=\""+path+"\""+" alt=\"Los Angeles\" style=\"width:100%;\">\r\n"
+							+ "        <div class=\"carousel-caption\">\r\n"
+							+ "          <h3>Los Angeles</h3>\r\n"
+							+ "          <p>LA is always so much fun!</p>\r\n"
+							+ "        </div>\r\n"
+							+ "      </div>");
+				}
+				isFirst=false;
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
