@@ -20,7 +20,7 @@
 }
 
 .customize-font-size{
-	font-size: 1.4vw;
+	font-size: 1.8em;
 }
 
 .header-item:hover{
@@ -98,4 +98,9 @@
 .profile-items-container{
 	display:flex;
 	flex-direction: column;
+}
+
+@media screen and (max-width: 900px) {
+  .header-container{
+  flex-direction: column;}
 }

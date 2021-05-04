@@ -7,7 +7,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script
@@ -57,7 +57,7 @@
 					}
 					%>
 				</div>
-			</div>
+			
 
 			<!-- Left and right controls -->
 			<a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -75,7 +75,7 @@
 	types=(ArrayList<String>) request.getAttribute("types");
 	for(String type:types){
 		if(!type.equals("carousel")){
-		%><h2><%=type %></h2>
+		%><h2 class="custom-heading"><%=type %></h2>
 				<div class="items-container"><%
 		for(Banner banner:banners){
 			if(banner.getType().equals(type)){

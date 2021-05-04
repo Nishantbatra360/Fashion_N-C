@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 <title>Header</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/Style.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/Header.css"/>
@@ -10,7 +11,7 @@
 <body>
 <Div class="header-container">
 <div class="header-container">
-<img style="margin-right: 4vw;" src="logo.svg"/ alt="Fashion N & C" height=60pt width=60pt>
+<img style="margin-right: 4vw;" src="logo.svg" alt="Fashion N & C" height=60pt width=60pt>
 <div class="header-item customize-font-color customize-font-size">Men</div>
 <div class="header-item customize-font-color customize-font-size">Women</div>
 <div class="header-item customize-font-color customize-font-size">Boys</div>
