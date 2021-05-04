@@ -74,7 +74,7 @@ public class FetchBanner extends HttpServlet {
 			
 			request.setAttribute("banners", banners);
 			request.setAttribute("types", types);
-			RequestDispatcher rd=request.getRequestDispatcher("Homepage.jsp");
+			RequestDispatcher rd=request.getRequestDispatcher("/HTML-JSP/Homepage.jsp");
 			rd.forward(request, response);
 			
 			System.out.println("Still working");

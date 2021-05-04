@@ -5,13 +5,13 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 <title>Header</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/Style.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/Header.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Style.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Header.css"/>
 </head>
 <body>
 <Div class="header-container">
 <div class="header-container">
-<img style="margin-right: 4vw;" src="logo.svg" alt="Fashion N & C" height=60pt width=60pt>
+<img style="margin-right: 4vw;" src="${pageContext.request.contextPath}/assets/icons/logo.svg" alt="Fashion N & C" height=60pt width=60pt>
 <div class="header-item customize-font-color customize-font-size">Men</div>
 <div class="header-item customize-font-color customize-font-size">Women</div>
 <div class="header-item customize-font-color customize-font-size">Boys</div>
@@ -19,11 +19,11 @@
 </div>
 <div class="search-bar-container">
 <input style="flex:1;" type="text" name="inputSearch"/>
-<img src="search.svg" height=15pt width=15pt/>
+<img src="${pageContext.request.contextPath}/assets/icons/search.svg" height=15pt width=15pt/>
 </div>
 <div class="header-container">
 <div class="header-item flex-vertical-center profile">
-<img class="align-center" src="profile.svg" height=30px width=30px/>
+<img class="align-center" src="${pageContext.request.contextPath}/assets/icons/profile.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">Profile</p>
 <div style="position:relative;">
 <div class="profile-container">
@@ -39,13 +39,13 @@
 </div>
 </div>
 <div class="header-item flex-vertical-center">
-<img class="align-center" src="wishlist.svg" height=30px width=30px/>
+<img class="align-center" src="${pageContext.request.contextPath}/assets/icons/wishlist.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">Wishlist</p>
 </div>
 <div class="header-item">
 <span class="cart-items-count customize-font-color">1</span>
 <div class="flex-vertical-center">
-<img class="align-center" src="cart.svg" height=30px width=30px/>
+<img class="align-center" src="${pageContext.request.contextPath}/assets/icons/cart.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">Cart</p>
 </div>
 </div>
