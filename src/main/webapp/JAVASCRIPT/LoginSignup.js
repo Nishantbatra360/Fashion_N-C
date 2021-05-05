@@ -2,8 +2,10 @@ function hide(){
     document.getElementById("sign").style.display="none";
     document.getElementById("log").style.display="none";
 }
-function signup()
+function validateSignup(event)
 {
+	event.preventDefault();
+	
     var name,email,password,confirm,check,contact;
     name=document.getElementById("signup-name").value;
     email=document.getElementById("signup-email").value;
@@ -30,15 +32,13 @@ function signup()
     {
         if(!contact)
         {
-            alert("Account created successfully");
-        document.getElementById("signup-form").reset();
+        document.getElementById("signup-form").submit();
         }
         else
         {
             if(contact.length==10)
             {
-                alert("Account created successfully");
-                document.getElementById("signup-form").reset();
+                document.getElementById("signup-form").submit();
             }
             else
             {
@@ -48,7 +48,9 @@ function signup()
         
     }
 }
-function login(){
+function validateLogin(event){
+	event.preventDefault();
+	
     var email,password;
     email=document.getElementById("login-email").value;
     password=document.getElementById("login-password").value;
@@ -64,8 +66,8 @@ function login(){
         alert("Please enter password")
     }
     else{
-        alert("login credentials will be checked at backend");
-        document.getElementById("login-form").reset();
+        document.getElementById("login-form").submit();
+        
     }
 }
 function showlogin(){

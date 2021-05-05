@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="com.entity.User"%>
 <html>
 <head>
 <meta charset="utf-8">
@@ -11,7 +12,9 @@
 <body>
 <Div class="header-container">
 <div class="header-container">
+<a href="${pageContext.request.contextPath}/HomepageControllerServlet">
 <img style="margin-right: 4vw;" src="${pageContext.request.contextPath}/assets/icons/logo.svg" alt="Fashion N & C" height=60pt width=60pt>
+</a>
 <div class="header-item customize-font-color customize-font-size">Men</div>
 <div class="header-item customize-font-color customize-font-size">Women</div>
 <div class="header-item customize-font-color customize-font-size">Boys</div>
@@ -24,12 +27,21 @@
 <div class="header-container">
 <div class="header-item flex-vertical-center profile">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/profile.svg" height=30px width=30px/>
-<p class="customize-font-color align-center">Profile</p>
+<p class="customize-font-color align-center">
+<%
+User user=(User)session.getAttribute("user");
+if(user==null){
+	%>Profile<%
+}
+else{
+	%> <%=user.getName() %> <%
+}
+%>
+</p>
 <div style="position:relative;">
 <div class="profile-container">
 <div class="profile-items-container">
-<a href class="anchor-design customize-font-color">Login</a>
-<a href class="anchor-design customize-font-color">Signup</a>
+<a href="${pageContext.request.contextPath}/HTML-JSP/LoginSignup.jsp" class="anchor-design customize-font-color">Login/Signup</a>
 </div>
 <div class="profile-items-container">
 <a href class="anchor-design customize-font-color">View/Edit Profile</a>

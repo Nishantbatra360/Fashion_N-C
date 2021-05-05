@@ -11,21 +11,45 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="LoginSignup.css">
-<script src="LoginSignup.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/CSS/LoginSignup.css">
+<script src="${pageContext.request.contextPath}/JAVASCRIPT/LoginSignup.js"></script>
     </head>
     <body onload="hide()">
+    <%
+    String str=(String)request.getAttribute("Login_Failed");
+    
+    if(str!=null && str.equals("true")){
+    	%>
+    	<p class="error-design">Unable to login, please check email or password</p>
+    	<%
+    	request.removeAttribute("Login_Failed");
+    }
+    str=(String)request.getAttribute("Signup_Failed");
+    if(str!=null && str.equals("true")){
+    	%>
+    	<p class="error-design">You are already registered</p>
+    	<%
+    	request.removeAttribute("Signup_Failed");
+    }
+    str=(String)request.getAttribute("Signup_Success");
+    if(str!=null && str.equals("true")){
+    	%>
+    	<p class="success-design">Registered successfully, you can login now.</p>
+    	<%
+    	request.removeAttribute("Signup_Success");
+    }
+    %>
     <jsp:include page="Header.jsp"></jsp:include>
         <div class="card-deck" style="border:hidden;">
             <div class="card mb-2 form-padding" style="border:hidden;background:none;" id="image1">
                 <center>
-                <img id="i1" src="../IMAGES/login.png"><br>
+                <img id="i1" style="height:40vh;" src="${pageContext.request.contextPath}/assets/icons/login.svg"><br>
                 <button id="b1" style="width: 100px;" type="button" class="btn btn-primary" onclick="showlogin()">User Login</button>
                 </center>
                 </div>
             <div class="card mb-2 form-padding" style="border:hidden;background:none;" id="image2">
                 <center>
-                <img id="i2" src="../IMAGES/signup.png"><br>
+                <img id="i2" style="height:40vh;" src="${pageContext.request.contextPath}/assets/icons/signup.svg"><br>
                 <button id="b2" style="width:100px;" type="button" class="btn btn-secondary" onclick="showsignup()">User Sign-up</button>
                 </center>
                 </div>
@@ -33,15 +57,16 @@
         <div class="card-deck">
             <div class="card mb-2 form-padding" id="log">
                 <h4 class="card-title">Login</h4>
-                <form id="login-form" action="Login">
+                <form id="login-form" action="${pageContext.request.contextPath}/LoginSignupControllerServlet" method="post" onsubmit="return validateLogin(event);">
+                <input type="hidden" name="command" value="login"/>
                     <div class="form-group">
                         <label for="login-email">Email</label>
-                        <input type="email" class="form-control" id="login-email" 
+                        <input type="email" name="email" class="form-control" id="login-email" 
                         placeholder="Enter Email address">
                     </div>
                     <div class="form-group">
                         <label for="login-password">Password</label>
-                        <input type="password" class="form-control" id="login-password" 
+                        <input type="password" name="password" class="form-control" id="login-password" 
                         placeholder="Enter password">
                     </div>
                     <div class="form-check">
@@ -54,25 +79,26 @@
             </div>
             <div id="sign" class="card mb-2 form-padding">
                 <h4 class="card-title">Create Account</h4>
-                <form id="signup-form">
+                <form id="signup-form" action="${pageContext.request.contextPath}/LoginSignupControllerServlet" method="post"  onsubmit="return validateSignup(event);">
+                <input type="hidden" name="command" value="signup"/>
                     <div class="form-group">
                         <label for="signup-name">Name <span class="star">*</span></label>
-                        <input type="text" class="form-control" id="signup-name" 
+                        <input type="text" name="name" class="form-control" id="signup-name" 
                         placeholder="Enter Name">
                     </div>
                     <div class="form-group">
                         <label for="signup-email">Email <span class="star">*</span></label>
-                        <input type="email" class="form-control" id="signup-email" 
+                        <input type="email" name="email" class="form-control" id="signup-email" 
                         placeholder="Enter Email address">
                     </div>
                     <div class="form-group">
                         <label for="signup-contact">Contact number</label>
-                        <input type="number" class="form-control" id="signup-contact" 
+                        <input type="number" name="contact" class="form-control" id="signup-contact" 
                         placeholder="Enter Contact number">
                     </div>
                     <div class="form-group">
                         <label for="signup-password">Password <span class="star">*</span></label>
-                        <input type="password" class="form-control" id="signup-password" 
+                        <input type="password" name="password" class="form-control" id="signup-password" 
                         placeholder="Enter password">
                     </div>
                     <div class="form-group">
@@ -85,7 +111,7 @@
                         <label for="signup-check" class="form-check-label">
                             I accept terms and conditions</label>
                     </div><br>
-                    <button type="button" class="btn btn-primary" onclick="signup()">Signup</button>
+                    <button type="submit" class="btn btn-primary">Signup</button>
                     <button type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
                     <span id="haveaccount" onclick="showlogin()">&nbsp&nbsp&nbsp&nbsp&nbspHave an account?</span>
                 </form>

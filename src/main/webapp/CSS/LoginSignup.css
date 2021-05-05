@@ -66,3 +66,16 @@ cursor:pointer;
             width: 120px;
         }
     }
+    
+.error-design{
+	text-align: center;
+    background: red;
+    color: white;
+    margin: 0;
+}
+.success-design{
+	text-align: center;
+    background: green;
+    color: white;
+    margin: 0;
+}
