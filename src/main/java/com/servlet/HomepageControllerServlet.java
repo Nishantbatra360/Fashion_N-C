@@ -16,13 +16,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.sql.DataSource;
+
+import com.entity.Banner;
+
 import javax.annotation.Resource;
 
 /**
  * Servlet implementation class FetchBanner
  */
-@WebServlet("/FetchBanner")
-public class FetchBanner extends HttpServlet {
+@WebServlet("/HomepageControllerServlet")
+public class HomepageControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Resource(name = "jdbc/fashion_nc")
@@ -31,7 +34,7 @@ public class FetchBanner extends HttpServlet {
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public FetchBanner() {
+	public HomepageControllerServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

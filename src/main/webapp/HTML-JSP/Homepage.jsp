@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
-<%@page import="com.servlet.*"%>
+<%@page import="com.entity.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +46,7 @@
 						isFirst = false;
 						%>
 						<img src="<%=banner.getPath()%>" alt="Los Angeles"
-							style="width: 100%;">
+							style="width: 100%;height:60vh;">
 						<div class="carousel-caption">
 							<h3><%=banner.getHeading()%></h3>
 							<p><%=banner.getDescription()%></p>

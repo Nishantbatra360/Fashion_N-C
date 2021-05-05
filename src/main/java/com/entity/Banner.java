@@ -1,4 +1,4 @@
-package com.servlet;
+package com.entity;
 
 public class Banner {
 	private int id;
