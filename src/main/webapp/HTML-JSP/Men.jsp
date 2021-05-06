@@ -30,5 +30,6 @@
 	
 %>	
 </Div>
+<jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

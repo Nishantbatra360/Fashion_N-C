@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <%@page import="com.entity.User"%>
 <html>
@@ -28,25 +30,32 @@
 <div class="header-item flex-vertical-center profile">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/profile.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">
-<%
-User user=(User)session.getAttribute("user");
-if(user==null){
-	%>Profile<%
-}
-else{
-	%> <%=user.getName() %> <%
-}
-%>
+
+<c:if test="${sessionScope.user==null }">
+Profile
+</c:if>
+<c:if test="${sessionScope.user!=null }">
+${sessionScope.user.name }
+</c:if>
+
 </p>
 <div style="position:relative;">
 <div class="profile-container">
+
+<c:if test="${sessionScope.user==null }">
 <div class="profile-items-container">
-<a href="${pageContext.request.contextPath}/HTML-JSP/LoginSignup.jsp" class="anchor-design customize-font-color">Login/Signup</a>
+<a href="${pageContext.request.contextPath}/HTML-JSP/LoginSignup.jsp" class="anchor-design customize-font-color">Login/ Signup</a>
 </div>
+</c:if>
+<c:if test="${sessionScope.user!=null }">
 <div class="profile-items-container">
+<c:url var="logout" value="LogoutControllerServlet"/>
+
 <a href class="anchor-design customize-font-color">View/Edit Profile</a>
-<a href class="anchor-design customize-font-color">Logout</a>
+<a href="${logout }" class="anchor-design customize-font-color">Logout</a>
 </div>
+</c:if>
+
 </div>
 </div>
 </div>
