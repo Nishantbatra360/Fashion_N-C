@@ -25,7 +25,7 @@ public class ProductDbUtil {
 		ResultSet myRs = null;			
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.products";			
+			String sql = "SELECT * FROM products";			
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
 			while (myRs.next()) {
@@ -60,7 +60,7 @@ public class ProductDbUtil {
 		ResultSet myRs = null;			
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.products "
+			String sql = "SELECT * FROM products "
 					+ "WHERE gender=\"" + gen + "\"";					
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
@@ -86,7 +86,7 @@ public class ProductDbUtil {
 		ResultSet myRs = null;			
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.products"
+			String sql = "SELECT * FROM products"
 					+ "WHERE type=\"" + productType + "\" ";					
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
@@ -112,7 +112,7 @@ public class ProductDbUtil {
 		int theProductId = Integer.parseInt(productId);
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.products WHERE Id=" + theProductId;
+			String sql = "SELECT * FROM products WHERE Id=" + theProductId;
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
 			
@@ -145,7 +145,33 @@ public class ProductDbUtil {
 		
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.stocks WHERE productId=" + productId;
+			String sql = "SELECT * FROM stocks WHERE productId=" + productId;
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery(sql);			
+			
+			while (myRs.next()) {				
+				String theSize = myRs.getString("size");	
+				int theStock = myRs.getInt("stock");
+				int theSoldNb = myRs.getInt("soldQuantity");			
+				
+				Stock stock = new Stock(theSize,theStock,theSoldNb);		
+				stocks.add(stock);
+			}			
+			return stocks;
+		}
+		finally {close(myConn, myStmt, myRs);}				
+	}
+	
+public List<Stock> getAllStocks() throws Exception {
+		
+		List<Stock> stocks = new ArrayList<>();
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = dataSource.getConnection();			
+			String sql = "SELECT * FROM stocks";
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
 			
@@ -171,7 +197,7 @@ public class ProductDbUtil {
 		
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "select stock from `fashion_n&c`.stocks where productId =" + theProductId 
+			String sql = "select stock from stocks where productId =" + theProductId 
 					+" AND size=\"" + size + "\"";
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			

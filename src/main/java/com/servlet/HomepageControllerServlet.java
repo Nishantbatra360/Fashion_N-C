@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -18,6 +19,8 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 import com.entity.Banner;
+import com.entity.Cart;
+import com.entity.User;
 
 import javax.annotation.Resource;
 
@@ -80,7 +83,13 @@ public class HomepageControllerServlet extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher("/HTML-JSP/Homepage.jsp");
 			rd.forward(request, response);
 			
-			System.out.println("Still working");
+			HttpSession session=request.getSession();
+			User user=(User) session.getAttribute("user");
+					if(user!=null) {
+						CartDbUtil cartDbUtil=new CartDbUtil(dataSource);
+						List<Cart> carts=cartDbUtil.getCartItems(user.getEmail());
+						session.setAttribute("CART_COUNT",carts.size());
+					}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

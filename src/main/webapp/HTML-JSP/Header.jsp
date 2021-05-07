@@ -64,7 +64,9 @@ ${sessionScope.user.name }
 <p class="customize-font-color align-center">Wishlist</p>
 </div>
 <div class="header-item">
-<span class="cart-items-count customize-font-color">1</span>
+<span class="cart-items-count customize-font-color">
+<c:if test="${user!=null && CART_COUNT>0 }">${CART_COUNT }</c:if>
+</span>
 <div class="flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/cart.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">

@@ -50,18 +50,25 @@ public class CartControllerServlet extends HttpServlet {
 		
 	}
 	
-	private void listCartItems(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+	private void listCartItems(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session=request.getSession();
 		User user=(User) session.getAttribute("user");
 		List<Cart> carts=new ArrayList<Cart>();
+		List<Product> products=new ArrayList<Product>();
+		List<Stock> stocks=new ArrayList<Stock>();
 		if(user==null) {
-			//use cookies for guest
+			//can use cookies for guest
 		}
 		else {
 			carts=cartDbUtil.getCartItems(user.getEmail());
+			ProductDbUtil productDbUtil=new ProductDbUtil(dataSource);
+			products=productDbUtil.getAll();
+			stocks=productDbUtil.getAllStocks();
 		}
 		
 		request.setAttribute("CART_ITEMS", carts);
+		request.setAttribute("PRODUCTS", products);
+		request.setAttribute("STOCKS", stocks);
 		RequestDispatcher dispatcher=request.getRequestDispatcher("/HTML-JSP/Cart.jsp");
 		dispatcher.forward(request, response);
 		
