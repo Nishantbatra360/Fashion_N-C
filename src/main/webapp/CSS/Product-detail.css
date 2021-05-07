@@ -1,6 +1,30 @@
+.product-detail-container{
+	display: inline-block;		
+}
+
+.image-contain{
+	max-width: 30%;
+	float: left;
+}
+
 .dividerthin{
     background-color: white;
     height: 3px;
     width: 100%;
     display: inline-block;
+}
+
+.product-info {
+	float: left;
+}
+
+.add-cart-button {
+	background-color: #de4b9f;
+	color: white; 
+	width: 200px;
+	
+}
+
+.wishlist-button-1 {
+	width: 150px;
 }

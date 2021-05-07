@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page import="com.entity.User"%>
 <html>
 <head>
@@ -17,10 +19,21 @@
 <a href="${pageContext.request.contextPath}/HomepageControllerServlet">
 <img style="margin-right: 4vw;" src="${pageContext.request.contextPath}/assets/icons/logo.svg" alt="Fashion N & C" height=60pt width=60pt>
 </a>
-<div class="header-item customize-font-color customize-font-size">Men</div>
-<div class="header-item customize-font-color customize-font-size">Women</div>
-<div class="header-item customize-font-color customize-font-size">Boys</div>
-<div class="header-item customize-font-color customize-font-size">Girls</div>
+
+<div class="header-item customize-font-color customize-font-size">
+	<c:set var="data" value="MEN,WOMEN,BOYS,GIRLS" />
+	<c:set var="genderArray" value="${fn:split(data,',')}" />
+	<c:forEach var="tempGender" items="${genderArray}">					
+					
+		<c:url var="tempLink" value="ProductControllerServlet">
+			<c:param name="command" value="FILTER-GENDER" />
+			<c:param name="gender" value="${tempGender}" />
+		</c:url>
+		<a href="${tempLink}">${tempGender} </a>		
+																		
+	</c:forEach>						
+</div>		
+
 </div>
 <div class="search-bar-container">
 <input style="flex:1;" type="text" name="inputSearch"/>
