@@ -22,7 +22,7 @@ public class CartControllerServlet extends HttpServlet {
 	
 	private CartDbUtil cartDbUtil;
 	
-	@Resource(name="jdbc/ferme_bd")
+	@Resource(name="jdbc/fashion_nc")
 	private DataSource dataSource;
 	
 	@Override
@@ -42,7 +42,6 @@ public class CartControllerServlet extends HttpServlet {
 		try {
 			listCartItems(request,response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -5,7 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="Cart.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Cart.css" />
 <title>Insert title here</title>
 </head>
 <body>

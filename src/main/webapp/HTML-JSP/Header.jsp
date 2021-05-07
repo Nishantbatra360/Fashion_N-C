@@ -67,7 +67,10 @@ ${sessionScope.user.name }
 <span class="cart-items-count customize-font-color">1</span>
 <div class="flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/cart.svg" height=30px width=30px/>
-<p class="customize-font-color align-center">Cart</p>
+<p class="customize-font-color align-center">
+<c:url var="displayCart" value="CartControllerServlet"/>
+<a href="${displayCart}">Cart</a>
+</p>
 </div>
 </div>
 </div>
