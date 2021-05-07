@@ -1,61 +1,68 @@
 package com.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
 	 
 	private int productId;
-	public String productName;
-	public String size;
-	public String color;
-	public int stock;
-	public int soldQuantity;
-	public Gender gender;
-	public String productType;
-	public String description;
-	public double price;
-	public String image;
+	private String productName;	
+	private String color;	
+	private Gender gender;
+	private String productType;
+	private String description;
+	private double price;
+	private String image;
+	private List<Stock> stocks;	
 	
-	public Product(int productId, String productName,String size,String color,
-			int stock, int soldQuantity, Gender gender, String productType,
-			String description, double price,String image ) {
+	
+	public Product(int productId,String productName, Gender gender, String productType,
+			double price,String image ) {	
 		this.productId = productId;
-		this.productName = productName;
-		this.size = size;
-		this.color = color;
-		this.stock = stock;
-		this.soldQuantity = soldQuantity;
-		this.gender = gender;		
-		this.productType = productType;
-		this.description = description;
-		this.price = price;	
-		this.image = image;
-	}
-	
-	public Product(String productName, Gender gender, String productType,
-			double price,String image ) 
-	{		
 		this.productName = productName;	
 		this.gender = gender;		
 		this.productType = productType;		
 		this.price = price;	
 		this.image = image;
+		this.stocks = new ArrayList<>();
 	}
-	/*
-	public String getProductName() {
-		return productName;
-	}
-	public String getProductName() {
-		return productName;
-	}
-	*/
 	
-	public void UpdateStock(int quantity)
-	{
-		this.stock += quantity;
+	public Product(String productName,String color,	Gender gender, String productType,
+			String description, double price,String image, List<Stock> stocks ) {		
+		this.productName = productName;		
+		this.color = color;		
+		this.gender = gender;		
+		this.productType = productType;
+		this.description = description;
+		this.price = price;	
+		this.image = image;
+		this.stocks = stocks;
+	}	
+	
+	public Product(int productId, String productName,String color,	Gender gender, String productType,
+			String description, double price,String image, List<Stock> stocks ) {		
+		this.productId = productId;
+		this.productName = productName;		
+		this.color = color;		
+		this.gender = gender;		
+		this.productType = productType;
+		this.description = description;
+		this.price = price;	
+		this.image = image;
+		this.stocks = stocks;
+	}	
+	
+	public int getProductId() {return productId;}
+	public String getProductName() {return productName;}	
+	public String getColor() {return color;}	
+	public Gender getGender() {return gender;}
+	public String getProductType() {return productType;}
+	public String getDescription() {return description;}
+	public double getPrice() {return price;}
+	public String getImage() {return image;}
+	public List<Stock> getStocks() {return stocks;}
+	
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
 	}
-	public void UpdateSoldQuantity(int quantity)
-	{
-		this.soldQuantity += quantity;
-		this.stock -= quantity;
-	}
-
 }
