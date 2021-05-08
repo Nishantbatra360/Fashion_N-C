@@ -55,7 +55,7 @@ ${sessionScope.user.name }
 <div class="profile-items-container">
 <c:url var="logout" value="LogoutControllerServlet"/>
 
-<a href class="anchor-design customize-font-color">View/Edit Profile</a>
+<a href="${pageContext.request.contextPath}/HTML-JSP/Profile.jsp" class="anchor-design customize-font-color">View/Edit Profile</a>
 <a href="${logout }" class="anchor-design customize-font-color">Logout</a>
 </div>
 </c:if>

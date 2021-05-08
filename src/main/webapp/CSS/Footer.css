@@ -2,5 +2,7 @@
 	background-color:#946000;
 	color: snow;
 	margin-top: 40px;
-	padding:10px;
+	position: absolute;
+	width: 100%;
+	bottom:-150px
 }
