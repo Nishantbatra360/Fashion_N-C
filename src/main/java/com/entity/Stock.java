@@ -19,6 +19,7 @@ public class Stock {
 		this.soldQuantity = soldQuantity;
 	}
 	
+	public int getProductId() {return productId;}
 	public String getSize() {return size;}
 	public int getUnitsInStock() {return unitsInStock;}
 	public int getSoldQuantity() {return soldQuantity;}

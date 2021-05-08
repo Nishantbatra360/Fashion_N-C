@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,19 +78,35 @@ public class CartControllerServlet extends HttpServlet {
 		List<Cart> carts=new ArrayList<Cart>();
 		List<Product> products=new ArrayList<Product>();
 		List<Stock> stocks=new ArrayList<Stock>();
-		if(user==null) {
-			//can use cookies for guest
+		
+		if(user==null) {			
+			//get cart list of user guest (userCookie)
+			String guestEmail = null;
+			Cookie[] theCookies = request.getCookies();
+			if(theCookies !=null){
+				   for(Cookie tempCookie : theCookies){
+					   if("userCookie".equals(tempCookie.getName())){
+						   guestEmail=tempCookie.getValue();
+						   break;
+					   }
+				   }
+			   }
+			
+			carts=cartDbUtil.getCartItems(guestEmail);					
 		}
 		else {
-			carts=cartDbUtil.getCartItems(user.getEmail());
-			ProductDbUtil productDbUtil=new ProductDbUtil(dataSource);
-			products=productDbUtil.getAll();
-			stocks=productDbUtil.getAllStocks();
+			carts=cartDbUtil.getCartItems(user.getEmail());			
 		}
+		
+		ProductDbUtil productDbUtil=new ProductDbUtil(dataSource);
+		products=productDbUtil.getAll();
+		stocks=productDbUtil.getAllStocks();
+		
 		
 		request.setAttribute("CART_ITEMS", carts);
 		request.setAttribute("PRODUCTS", products);
-		request.setAttribute("STOCKS", stocks);
+		request.setAttribute("STOCKS", stocks);			
+		
 		RequestDispatcher dispatcher=request.getRequestDispatcher("/HTML-JSP/Cart.jsp");
 		dispatcher.forward(request, response);
 		

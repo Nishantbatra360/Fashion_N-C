@@ -7,9 +7,8 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import com.entity.Gender;
-import com.entity.Product;
-import com.entity.Stock;
+
+import com.entity.*;
 
 public class ProductDbUtil {
 	private DataSource dataSource;
@@ -145,7 +144,7 @@ public class ProductDbUtil {
 		
 		try {
 			myConn = dataSource.getConnection();			
-			String sql = "SELECT * FROM `fashion_n&c`.stocks WHERE productId=" + productId;
+			String sql = "SELECT * FROM `fashion_n&c`.stocks WHERE productId=" + productId + " ORDER BY size";
 			myStmt = myConn.createStatement();
 			myRs = myStmt.executeQuery(sql);			
 			
@@ -161,6 +160,33 @@ public class ProductDbUtil {
 		}
 		finally {close(myConn, myStmt, myRs);}				
 	}
+	
+	public List<Stock> getAllStocks() throws Exception {
+	       
+        List<Stock> stocks = new ArrayList<>();
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+       
+        try {
+            myConn = dataSource.getConnection();           
+            String sql = "SELECT * FROM stocks";
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery(sql);           
+           
+            while (myRs.next()) { 
+            	int theProductId = myRs.getInt("productId");
+                String theSize = myRs.getString("size");   
+                int theStock = myRs.getInt("stock");
+                int theSoldNb = myRs.getInt("soldQuantity");           
+               
+                Stock stock = new Stock(theProductId,theSize,theStock,theSoldNb);       
+                stocks.add(stock);
+            }           
+            return stocks;
+        }
+        finally {close(myConn, myStmt, myRs);}               
+    }
 	
 	public int getUnitsInStock(String productId, String size) throws Exception {
 		
@@ -183,33 +209,47 @@ public class ProductDbUtil {
 			else return 0;			
 		}
 		finally {close(myConn, myStmt, myRs);}		
+	}	
+		
+	public boolean wishlistExists(Wishlist wishlist) throws Exception {		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;		
+		
+		try {
+			myConn = dataSource.getConnection();			
+			String sql = "select * from `fashion_n&c`.wishlists where email=\"" + wishlist.getEmail()+"\" AND productId =" + wishlist.getProductId();
+							
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery(sql);			
+			
+			if (myRs!= null) {				
+				return true;
+			}
+			else return false;			
+		}
+		finally {close(myConn, myStmt, myRs);}	
 	}
 	
-	public List<Stock> getAllStocks() throws Exception {
-	       
-        List<Stock> stocks = new ArrayList<>();
-        Connection myConn = null;
-        Statement myStmt = null;
-        ResultSet myRs = null;
-       
-        try {
-            myConn = dataSource.getConnection();           
-            String sql = "SELECT * FROM stocks";
-            myStmt = myConn.createStatement();
-            myRs = myStmt.executeQuery(sql);           
-           
-            while (myRs.next()) {               
-                String theSize = myRs.getString("size");   
-                int theStock = myRs.getInt("stock");
-                int theSoldNb = myRs.getInt("soldQuantity");           
-               
-                Stock stock = new Stock(theSize,theStock,theSoldNb);       
-                stocks.add(stock);
-            }           
-            return stocks;
-        }
-        finally {close(myConn, myStmt, myRs);}               
-    }
-	
+	public void addWishlist(Wishlist theWishlist) throws Exception {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		
+		try {			
+			myConn = dataSource.getConnection();
+		
+			String sql = "insert into wishlists "
+					   + "(email, productId) "
+					   + "values (?, ?)";
+			
+			myStmt = myConn.prepareStatement(sql);			
+			
+			myStmt.setString(1, theWishlist.getEmail());
+			myStmt.setInt(2, theWishlist.getProductId());			
+			myStmt.execute();
+		}
+		finally {close(myConn, myStmt, null);}	
+		
+	}
 	
 }

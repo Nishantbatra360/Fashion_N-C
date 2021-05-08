@@ -20,7 +20,7 @@ ${gen }
 	
 	<c:forEach var="tempProduct" items="${PRODUCT_LIST}">
 		<div class="box" >
-				<Form action="${pageContext.request.contextPath}/ProductControllerServlet" method="GET">		
+				<Form action="${pageContext.request.contextPath}/ProductControllerServlet" method="GET" >		
 				
 				<input type="hidden" name="productId" value="${tempProduct.productId }" />				
 				
@@ -41,5 +41,7 @@ ${gen }
 	
 	
 	</Div>
+	
+<jsp:include page="Footer.jsp"></jsp:include>
 </body>
 </html>

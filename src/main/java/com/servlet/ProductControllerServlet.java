@@ -1,18 +1,24 @@
 package com.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import com.entity.Cart;
 import com.entity.Product;
+import com.entity.User;
+import com.entity.Wishlist;
 /**
  * Servlet implementation class ProductControllerServlet
  */
@@ -62,36 +68,117 @@ public class ProductControllerServlet extends HttpServlet {
 			case "VIEW-PRODUCT":
 				viewProduct(request,response);	
 			case "ADD-WISHLIST":
-				addToWishList(request,response);
-				/*
-			case "ADD-CART":
-				addToCart(request,response);
-				*/
+				addToWishList(request,response);				
+			case "ADD-TO-CART":
+				addToCart(request,response);				
 			default:				
 				listProducts(request, response);			
-			}
-				
+			}				
 		}
 		catch (Exception exc) {
 			throw new ServletException(exc);
 		}
 	}	
 
+	private void addToCart(HttpServletRequest request, HttpServletResponse response) 
+	throws Exception {
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");		
+		int theId = Integer.parseInt(request.getParameter("productId"));
+		String theSize = request.getParameter("select-size");		
+		
+		UserDbUtil userDbUtil = new UserDbUtil(dataSource);
+		CartDbUtil cartDbUtil=new CartDbUtil(dataSource);
+		
+		List<Cart> carts = new ArrayList<Cart>();	
+		Cart cart = null;
+		
+		
+		if(user==null) {			
+			String guestEmail = null;
+			Cookie[] theCookies = request.getCookies();		
+			
+			if(theCookies !=null){
+				   for(Cookie tempCookie : theCookies){
+					   if("userCookie".equals(tempCookie.getName())){
+						   guestEmail=tempCookie.getValue();
+						   break;
+					   }
+				   }
+			   }
+			
+			if (guestEmail == null) {//create new user cookie for guest					
+				do	{	
+					int randomNb = (int)(Math.random()*100000 + 1);
+					String name = "guest" + String.valueOf(randomNb);
+					guestEmail = name + "@fashionnc.com";					
+					
+					if (!userDbUtil.userExists(guestEmail)) {
+						userDbUtil.addUser("x4@gmail.com","X4","1234","");
+						user = new User(guestEmail,name,"");
+						userDbUtil.addUser(guestEmail,name,guestEmail,""); 						
+						break;			
+					}					
+				} while (true);	
+				
+				Cookie theCookie = new Cookie("userCookie",guestEmail);
+				theCookie.setMaxAge(60*60*24*7); 
+				response.addCookie(theCookie);	
+				
+			} else {
+				if (!userDbUtil.userExists(guestEmail)) {
+					userDbUtil.addUser(guestEmail,guestEmail,guestEmail,"");					
+				} 				
+					user = userDbUtil.getUser(guestEmail);				
+			}
+		}	
+		
+		cart = new Cart(user.getEmail(),theId,theSize,1);
+		if (!cartDbUtil.cartExists(cart))			
+			cartDbUtil.addCart(cart);		
+		
+		carts=cartDbUtil.getCartItems(user.getEmail());	
+		session.setAttribute("CART_COUNT", carts.size());	
+		
+		/*
+		request.setAttribute("PRODUCT_ID", theId);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
+		dispatcher.forward(request, response);	
+		*/	
+	}
+	
 	private void addToWishList(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {
 		
-		String theId = request.getParameter("productId");
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		String theId = request.getParameter("productId");	
+		request.setAttribute("PRODUCT_ID",theId);
+		int productId = Integer.parseInt(theId);
 		
-		request.setAttribute("PRODUCT_ID", theId);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Wishlist.jsp");
-		dispatcher.forward(request, response);
+		if(user==null) {		
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/LoginSignup.jsp");
+			dispatcher.forward(request, response);			
+		}		
+		else {
+			Wishlist wishlist = new Wishlist(user.getEmail(),productId);
+			if (!productDbUtil.wishlistExists(wishlist))
+			{
+				productDbUtil.addWishlist(wishlist);
+			}
+			
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
+			dispatcher.forward(request, response);
+		}	
+		
 	}
 
 	private void viewProduct(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {
 		
 		String theId = request.getParameter("productId");
-		Product product = productDbUtil.getProductById(theId);
+		Product product = productDbUtil.getProductById(theId);		
 		
 		request.setAttribute("PRODUCT_DETAIL", product);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-detail.jsp");

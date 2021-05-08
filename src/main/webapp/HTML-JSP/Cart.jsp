@@ -17,8 +17,8 @@
 	<div>
 		<div class="parent-container">
 			<div class="products-container">
-				<div class="items-count-and-total-container">
-					<p class="count">My Shopping Bag (2 Items)</p>
+				<div class="items-count-and-total-container">				
+					<p class="count">My Shopping Bag (${CART_COUNT} Items)</p>
 					<p>
 						<c:set var="price" value="${0 }" />
 						<c:forEach var="product" items="${PRODUCTS}">
@@ -51,15 +51,18 @@
 						<div class="product-attributes">
 							<Label for="size">size:</Label> <select class="margin-right"
 								name="size">
-								<option>S</option>
-								<option>M</option>
-								<option>L</option>
-								<option>XL</option>
+								<c:forEach var="stock" items="${STOCKS }" >
+									<c:if test="${cart.productId == stock.productId && cart.size == stock.size}" > 
+										<option selected>${stock.size } </option>
+										</c:if>
+								</c:forEach>								
+								
 							</select> <Label for="qty">qty:</Label> <select name="qty">
 								<option>1</option>
 								<option>2</option>
 								<option>3</option>
 								<option>4</option>
+								<option>5</option>
 							</select>
 						</div>
 					</div>

@@ -43,6 +43,61 @@ public class UserDbUtil {
 		}
 	}
 	
+	public User getUser(String email) throws Exception {
+		Connection myConn=null;
+		Statement myStmt=null;
+		ResultSet myRs=null;
+		
+		try {
+			myConn=dataSource.getConnection();
+			String sql="Select * from users where email=\""+email+"\"";
+			myStmt=myConn.createStatement();
+			myRs=myStmt.executeQuery(sql);
+			if(myRs.next()) {				
+				String retrievedEmail=myRs.getString("email");
+				String retrievedContact=myRs.getString("contact");
+				String retrievedName=myRs.getString("name");
+				return new User(retrievedEmail, retrievedName, retrievedContact);
+			}
+			else {
+				return null;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally {
+			close(myConn,myStmt,myRs);
+		}
+	}
+	
+	public boolean userExists(String email) throws Exception {
+		Connection myConn=null;
+		Statement myStmt=null;
+		ResultSet myRs=null;
+		
+		try {
+			myConn=dataSource.getConnection();
+			String sql="Select * from users where email=\""+email+"\"";
+			myStmt=myConn.createStatement();
+			myRs=myStmt.executeQuery(sql);
+			if(myRs.next()) {	
+				return true;
+			}
+			else {
+				return false;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(myConn,myStmt,myRs);
+		}
+	}
+	
+	
+	
 	public boolean addUser(String email,String name,String password,String contact) throws Exception{
 		Connection myConn=null;
 		Statement myStmt=null;
@@ -64,7 +119,7 @@ public class UserDbUtil {
 			return false;
 		}
 		finally {
-			close(myConn,myStmt);
+			close(myConn,myStmt,null);
 		}
 	}
 	
@@ -85,17 +140,5 @@ public class UserDbUtil {
 		}
 	}
 	
-	private void close(Connection myConn,Statement myStmt) {
-		try {
-			if(myStmt!=null) {
-				myStmt.close();
-			}
-			if(myConn!=null) {
-				myConn.close();
-			}
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 }

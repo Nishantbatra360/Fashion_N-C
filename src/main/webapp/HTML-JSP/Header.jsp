@@ -14,17 +14,21 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Header.css"/>
 </head>
 <body>
-<Div class="header-container margin-bottom">
+<Div class="header-container">
 <div class="header-container">
 <a href="${pageContext.request.contextPath}/HomepageControllerServlet">
 <img style="margin-right: 4vw;" src="${pageContext.request.contextPath}/assets/icons/logo.svg" alt="Fashion N & C" height=60pt width=60pt>
 </a>
-<form class="header-item">
-<input class="customize-font-color customize-font-size" type="submit" name="command" value="Men"/>
-<input class="customize-font-color customize-font-size" type="submit" name="command" value="Women"/>
-<input class="customize-font-color customize-font-size" type="submit" name="command" value="Boys"/>
-<input class="customize-font-color customize-font-size" type="submit" name="command" value="Girls"/>
+
+<form class="header-item" action="${pageContext.request.contextPath}/ProductControllerServlet" method="GET">
+	<c:set var="data" value="MEN,WOMEN,BOYS,GIRLS" />
+	<c:set var="genderArray" value="${fn:split(data,',')}" />
+	<input type="hidden" name="command" value="FILTER-GENDER"/>
+	<c:forEach var="tempGender" items="${genderArray}">			
+		<input class="customize-font-color customize-font-size" type="submit" name="gender" value="${tempGender }"/>		
+	</c:forEach>
 </form>
+
 </div>
 <div class="search-bar-container">
 <input style="flex:1;" type="text" name="inputSearch"/>
@@ -55,7 +59,7 @@ ${sessionScope.user.name }
 <div class="profile-items-container">
 <c:url var="logout" value="LogoutControllerServlet"/>
 
-<a href="${pageContext.request.contextPath}/HTML-JSP/Profile.jsp" class="anchor-design customize-font-color">View/Edit Profile</a>
+<a href class="anchor-design customize-font-color">View/Edit Profile</a>
 <a href="${logout }" class="anchor-design customize-font-color">Logout</a>
 </div>
 </c:if>
@@ -63,14 +67,20 @@ ${sessionScope.user.name }
 </div>
 </div>
 </div>
+
+
 <div class="header-item flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/wishlist.svg" height=30px width=30px/>
-<p class="customize-font-color align-center">Wishlist</p>
+<p class="customize-font-color align-center"><c:url var="displayWishlist" value="CartControllerServlet"/>
+<a href="${displayWishlist}">Wishlist</a>
+</p>
 </div>
+
 <div class="header-item">
 <span class="cart-items-count customize-font-color">
-<c:if test="${user!=null && CART_COUNT>0 }">${CART_COUNT }</c:if>
+<c:if test="${CART_COUNT>0 }">${CART_COUNT }</c:if>
 </span>
+
 <div class="flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/cart.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">

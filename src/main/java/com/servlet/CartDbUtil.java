@@ -1,6 +1,7 @@
 package com.servlet;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -64,9 +65,54 @@ public class CartDbUtil {
 		myStmt = myConn.createStatement();
 		int result=myStmt.executeUpdate(sql);
 		
-		close(myConn,myStmt);
+		close(myConn,myStmt,null);
 	}
 	
+	
+	public void addCart(Cart cart) throws Exception {	
+		
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		
+		try {			
+			myConn = dataSource.getConnection();
+		
+			String sql = "insert into carts "
+					   + "(email, productId, size, qty) "
+					   + "values (?, ?, ?,?)";
+			
+			myStmt = myConn.prepareStatement(sql);			
+			
+			myStmt.setString(1, cart.getEmail());
+			myStmt.setInt(2, cart.getProductId());
+			myStmt.setString(3, cart.getSize());
+			myStmt.setInt(4, cart.getQty());	
+			
+			myStmt.execute();
+		}
+		finally {close(myConn, myStmt, null);}
+	}
+	
+	public boolean cartExists(Cart cart) throws Exception {
+		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;		
+		
+		try {
+			myConn = dataSource.getConnection();			
+			String sql = "select * from `fashion_n&c`.carts where email=\"" + cart.getEmail()+"\" AND productId =" + cart.getProductId() 
+					+" AND size=\"" + cart.getSize() + "\"";
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery(sql);			
+			
+			if (myRs.next()) {				
+				return true;
+			}
+			else return false;			
+		}
+		finally {close(myConn, myStmt, myRs);}	
+	}
 	
 	private void close(Connection myConn,Statement myStmt,ResultSet myRs) {
 		try {
@@ -85,18 +131,6 @@ public class CartDbUtil {
 		}
 	}
 	
-	private void close(Connection myConn,Statement myStmt) {
-		try {
-			if(myStmt!=null) {
-				myStmt.close();
-			}
-			if(myConn!=null) {
-				myConn.close();
-			}
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 }
