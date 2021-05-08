@@ -185,7 +185,31 @@ public class ProductDbUtil {
 		finally {close(myConn, myStmt, myRs);}		
 	}
 	
-	
+	public List<Stock> getAllStocks() throws Exception {
+	       
+        List<Stock> stocks = new ArrayList<>();
+        Connection myConn = null;
+        Statement myStmt = null;
+        ResultSet myRs = null;
+       
+        try {
+            myConn = dataSource.getConnection();           
+            String sql = "SELECT * FROM stocks";
+            myStmt = myConn.createStatement();
+            myRs = myStmt.executeQuery(sql);           
+           
+            while (myRs.next()) {               
+                String theSize = myRs.getString("size");   
+                int theStock = myRs.getInt("stock");
+                int theSoldNb = myRs.getInt("soldQuantity");           
+               
+                Stock stock = new Stock(theSize,theStock,theSoldNb);       
+                stocks.add(stock);
+            }           
+            return stocks;
+        }
+        finally {close(myConn, myStmt, myRs);}               
+    }
 	
 	
 }

@@ -67,6 +67,7 @@ public class CartDbUtil {
 		close(myConn,myStmt);
 	}
 	
+	
 	private void close(Connection myConn,Statement myStmt,ResultSet myRs) {
 		try {
 			if(myRs!=null) {
