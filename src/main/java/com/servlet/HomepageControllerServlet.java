@@ -81,7 +81,6 @@ public class HomepageControllerServlet extends HttpServlet {
 			request.setAttribute("banners", banners);
 			request.setAttribute("types", types);
 			RequestDispatcher rd=request.getRequestDispatcher("/HTML-JSP/Homepage.jsp");
-			rd.forward(request, response);
 			
 			HttpSession session=request.getSession();
 			User user=(User) session.getAttribute("user");
@@ -90,6 +89,7 @@ public class HomepageControllerServlet extends HttpServlet {
 						List<Cart> carts=cartDbUtil.getCartItems(user.getEmail());
 						session.setAttribute("CART_COUNT",carts.size());
 					}
+					rd.forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

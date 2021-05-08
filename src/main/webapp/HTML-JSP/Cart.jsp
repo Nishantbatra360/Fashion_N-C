@@ -20,14 +20,15 @@
 				<div class="items-count-and-total-container">
 					<p class="count">My Shopping Bag (2 Items)</p>
 					<p>
-					<% double price=0; %>
+						<c:set var="price" value="${0 }" />
 						<c:forEach var="product" items="${PRODUCTS}">
-							<c:if test="${cart.productId==product.productId }">
-							<%Product p=(Product)pageContext.getAttribute("product"); %>
-							<%price=price+p.getPrice(); %>
-							</c:if>
+							<c:forEach var="cart" items="${CART_ITEMS }">
+								<c:if test="${cart.productId==product.productId }">
+									<c:set var="price" value="${price+product.price }" />
+								</c:if>
+							</c:forEach>
 						</c:forEach>
-						${price }
+						<span>&#36;</span>${price }
 					</p>
 				</div>
 				<c:forEach var="cart" items="${CART_ITEMS}">
@@ -64,9 +65,12 @@
 					</div>
 			</div>
 			<div class="product-options">
-				<input class="input-button red-background" type="button"
+			<form action="CartControllerServlet">
+			<input type="hidden" name="productId" value="${cart.productId}"/>
+				<input class="input-button red-background" name="command" type="submit"
 					value="remove" /> <input class="input-button green-background"
-					type="button" value="move to wishlist" />
+					name="command" type="submit" value="move to wishlist" />
+					</form>
 			</div>
 		</div>
 		</c:forEach>

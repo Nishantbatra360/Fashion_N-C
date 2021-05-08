@@ -18,6 +18,12 @@ body{
 	border-radius:0.5vw;
 }
 
+.header-item input{
+	background: none;
+    border: none;
+    padding:10px;
+}
+
 .customize-font-color{
 	color:snow;
 	cursor: pointer;
@@ -27,7 +33,7 @@ body{
 	font-size: 1.8em;
 }
 
-.header-item:hover{
+.header-item input:hover{
 	background-color:#bd7b00;
 	transition:0.4s;
 }
@@ -102,6 +108,15 @@ body{
 .profile-items-container{
 	display:flex;
 	flex-direction: column;
+}
+
+.margin-bottom{
+	margin-bottom: 40px;
+}
+
+.header-container a,.header-container a:hover{
+	color:snow;
+	cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {

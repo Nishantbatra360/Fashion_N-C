@@ -12,15 +12,17 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Header.css"/>
 </head>
 <body>
-<Div class="header-container">
+<Div class="header-container margin-bottom">
 <div class="header-container">
 <a href="${pageContext.request.contextPath}/HomepageControllerServlet">
 <img style="margin-right: 4vw;" src="${pageContext.request.contextPath}/assets/icons/logo.svg" alt="Fashion N & C" height=60pt width=60pt>
 </a>
-<div class="header-item customize-font-color customize-font-size">Men</div>
-<div class="header-item customize-font-color customize-font-size">Women</div>
-<div class="header-item customize-font-color customize-font-size">Boys</div>
-<div class="header-item customize-font-color customize-font-size">Girls</div>
+<form class="header-item">
+<input class="customize-font-color customize-font-size" type="submit" name="command" value="Men"/>
+<input class="customize-font-color customize-font-size" type="submit" name="command" value="Women"/>
+<input class="customize-font-color customize-font-size" type="submit" name="command" value="Boys"/>
+<input class="customize-font-color customize-font-size" type="submit" name="command" value="Girls"/>
+</form>
 </div>
 <div class="search-bar-container">
 <input style="flex:1;" type="text" name="inputSearch"/>

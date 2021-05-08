@@ -53,6 +53,20 @@ public class CartDbUtil {
 		}		
 	}
 	
+	public void removeItem(String email,int productId) throws Exception {
+		Connection myConn = null;
+		Statement myStmt = null;
+		
+		myConn = dataSource.getConnection();
+		
+		String sql = "DELETE from carts where email=\""+email+"\" and productId=\""+productId+"\"";
+		
+		myStmt = myConn.createStatement();
+		int result=myStmt.executeUpdate(sql);
+		
+		close(myConn,myStmt);
+	}
+	
 	private void close(Connection myConn,Statement myStmt,ResultSet myRs) {
 		try {
 			if(myRs!=null) {

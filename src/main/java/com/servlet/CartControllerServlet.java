@@ -40,9 +40,30 @@ public class CartControllerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			listCartItems(request,response);
+			String command=request.getParameter("command");
+			int productId=Integer.parseInt(request.getParameter("productId"));
+			
+			HttpSession session=request.getSession();
+			User user=(User) session.getAttribute("user");
+			
+			if(command.equals("remove")) {
+				cartDbUtil.removeItem(user.getEmail(),productId);
+				List<Cart> carts=cartDbUtil.getCartItems(user.getEmail());
+				session.setAttribute("CART_COUNT",carts.size());
+			}
+			else if(command.equals("move to wishlist")) {
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			try {
+				listCartItems(request,response);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
