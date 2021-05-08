@@ -47,5 +47,4 @@ public class Stock {
 	public boolean isEnoughStock(int quantity) {
 		return (unitsInStock >= quantity);
 	}
-
 }

@@ -43,25 +43,16 @@ public class ProductControllerServlet extends HttpServlet {
 		try {
 			// read the "command" parameter
 			theCommand = request.getParameter("command");
-			//String theWishlist = request.getParameter("WISHLIST");
-			
-			/*
-			// if the command is missing, then default to 
+											
 			if (theCommand == null) {
 				theCommand = "LIST";
-			}	
-			*/		
-			
-					
-			if (theCommand == null) {
-				theCommand = "FILTER_GENDER";
 			}			
 						
 			switch (theCommand) {
-			/*
+			
 			case "LIST":			
 				listProducts(request, response);				
-				break;		*/		
+				break;			
 			case "FILTER-GENDER":
 				filterGender(request, response);
 				break;
@@ -72,22 +63,25 @@ public class ProductControllerServlet extends HttpServlet {
 				viewProduct(request,response);	
 			case "ADD-WISHLIST":
 				addToWishList(request,response);
-				
+				/*
+			case "ADD-CART":
+				addToCart(request,response);
+				*/
 			default:				
-				filterGender(request, response);
-				//listProducts(request, response);			
+				listProducts(request, response);			
 			}
 				
 		}
 		catch (Exception exc) {
 			throw new ServletException(exc);
 		}
-	}
+	}	
 
 	private void addToWishList(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {
 		
 		String theId = request.getParameter("productId");
+		
 		request.setAttribute("PRODUCT_ID", theId);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Wishlist.jsp");
 		dispatcher.forward(request, response);
@@ -119,8 +113,8 @@ public class ProductControllerServlet extends HttpServlet {
 	private void filterGender(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception{
 		
-		//String theGender = request.getParameter("gender");
-		String theGender = "MEN";
+		String theGender = request.getParameter("gender");
+		
 		List<Product> products = productDbUtil.getProductsByGender(theGender);
 		
 		request.setAttribute("PRODUCT_GENDER",theGender);
@@ -130,7 +124,7 @@ public class ProductControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);	
 	}
 
-	/*
+	
 	private void listProducts(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {
 		
@@ -140,5 +134,5 @@ public class ProductControllerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/List-products.jsp");
 		dispatcher.forward(request, response);		
 	}
-	*/
+	
 }
