@@ -17,20 +17,7 @@
 	<div>
 		<div class="parent-container">
 			<div class="products-container">
-				<div class="items-count-and-total-container">				
-					<p class="count">My Shopping Bag (${CART_COUNT} Items)</p>
-					<p>
-					<% double price=0; %>
-						<c:forEach var="product" items="${PRODUCTS}">
-							<c:if test="${cart.productId==product.productId }">
-							<%Product p=(Product)pageContext.getAttribute("product"); %>
-							<%price=price+p.getPrice(); %>
-							</c:if>
-						</c:forEach>
-						${price }
-					</p>
-				</div>
-				<c:forEach var="cart" items="${CART_ITEMS}">
+				<c:forEach var="cart" items="${WISHLIST_ITEMS}">
 					<div class="product-card">
 						<div class="product-info">
 							<c:forEach var="product" items="${PRODUCTS}">
@@ -43,6 +30,8 @@
 											<p style="flex: 1;">${product.productName}</p>
 											<p>
 												<span>&#36;</span>${product.price }</p>
+												</div>
+												</div>
 								</c:if>
 							</c:forEach>
 						</div>
@@ -61,15 +50,18 @@
 								<option>4</option>
 							</select>
 						</div>
-					</div>
-			</div>
-			<div class="product-options">
-				<input class="input-button red-background" type="button"
+						<div class="product-options">
+						<form action="WishlistControllerServlet">
+			<input type="hidden" name="productId" value="${cart.productId}"/>
+				<input class="input-button red-background" name="command" type="submit"
 					value="remove" /> <input class="input-button green-background"
-					type="button" value="move to wishlist" />
+					name="command" type="submit" value="Move to cart" />
+					</form>
+			</div>
+					</div>
+					</c:forEach>
 			</div>
 		</div>
-		</c:forEach>
 
 	</div>
 

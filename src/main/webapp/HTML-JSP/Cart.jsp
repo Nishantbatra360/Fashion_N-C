@@ -14,7 +14,11 @@
 </head>
 <body>
 	<jsp:include page="Header.jsp"></jsp:include>
-	<div>
+	<c:if test="${CART_COUNT<1 }">
+	<p class="empty-cart">Cart is Empty</p>
+	</c:if>
+	<c:if test="${CART_COUNT>0 }">
+		<div>
 		<div class="parent-container">
 			<div class="products-container">
 				<div class="items-count-and-total-container">				
@@ -79,7 +83,6 @@
 		</c:forEach>
 
 	</div>
-
 	<div class="order-total-container">
 		<div>
 			<p class="flex-one margin-right">Total MRP</p>
@@ -100,6 +103,7 @@
 		<input class="input-button green-background" type="button"
 			value="Place order" />
 	</div>
+	</c:if>
 	</div>
 	</div>
 	<jsp:include page="Footer.jsp"></jsp:include>

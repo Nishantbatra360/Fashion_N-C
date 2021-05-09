@@ -150,6 +150,7 @@ public class ProductControllerServlet extends HttpServlet {
 	private void addToWishList(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {
 		
+		
 		HttpSession session=request.getSession();
 		User user=(User) session.getAttribute("user");
 		String theId = request.getParameter("productId");	
@@ -165,9 +166,10 @@ public class ProductControllerServlet extends HttpServlet {
 			Wishlist wishlist = new Wishlist(user.getEmail(),productId);
 			if (!productDbUtil.wishlistExists(wishlist))
 			{
+				System.out.println("adding");
 				productDbUtil.addWishlist(wishlist);
 			}
-			
+			System.out.println("Add to wishlist");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
 			dispatcher.forward(request, response);
 		}	

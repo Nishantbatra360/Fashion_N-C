@@ -58,8 +58,9 @@ ${sessionScope.user.name }
 <c:if test="${sessionScope.user!=null }">
 <div class="profile-items-container">
 <c:url var="logout" value="LogoutControllerServlet"/>
+<c:url var="profile" value="${pageContext.request.contextPath}/HTML-JSP/Profile.jsp"/>
 
-<a href class="anchor-design customize-font-color">View/Edit Profile</a>
+<a href="${profile }" class="anchor-design customize-font-color">View/Edit Profile</a>
 <a href="${logout }" class="anchor-design customize-font-color">Logout</a>
 </div>
 </c:if>
@@ -71,7 +72,7 @@ ${sessionScope.user.name }
 
 <div class="header-item flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/wishlist.svg" height=30px width=30px/>
-<p class="customize-font-color align-center"><c:url var="displayWishlist" value="CartControllerServlet"/>
+<p class="customize-font-color align-center"><c:url var="displayWishlist" value="WishlistControllerServlet"/>
 <a href="${displayWishlist}">Wishlist</a>
 </p>
 </div>
