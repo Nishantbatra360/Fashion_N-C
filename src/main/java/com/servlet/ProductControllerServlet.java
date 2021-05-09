@@ -70,10 +70,13 @@ public class ProductControllerServlet extends HttpServlet {
 				break;
 			case "VIEW-PRODUCT":
 				viewProduct(request,response);	
+				break;
 			case "ADD-WISHLIST":
-				addToWishList(request,response);				
+				addToWishList(request,response);
+				break;
 			case "ADD-TO-CART":
-				addToCart(request,response);				
+				addToCart(request,response);
+				break;
 			default:				
 				listProducts(request, response);			
 			}				
@@ -183,7 +186,7 @@ public class ProductControllerServlet extends HttpServlet {
 				productDbUtil.addWishlist(wishlist);
 			}
 			System.out.println("Add to wishlist");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-detail.jsp");
 			dispatcher.forward(request, response);
 		}	
 		
