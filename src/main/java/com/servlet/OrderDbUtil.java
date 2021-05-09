@@ -1,0 +1,208 @@
+package com.servlet;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+
+import javax.sql.DataSource;
+
+import com.entity.*;
+
+public class OrderDbUtil {
+
+	private DataSource dataSource;
+
+	public OrderDbUtil(DataSource dataSource) {
+		this.dataSource=dataSource;
+	}
+	
+	public List<Order> getOrders(String inputEmail) throws Exception{
+		List<Order> orders= new ArrayList<Order>();		
+		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = dataSource.getConnection();
+			
+			String sql = "SELECT * from orders where email=\""+inputEmail+"\"";
+			
+			myStmt = myConn.createStatement();
+			
+			myRs = myStmt.executeQuery(sql);
+			
+			while (myRs.next()) {
+				int orderId	= myRs.getInt("orderId");
+				String address = myRs.getString("address");
+				String paymentMethod = myRs.getString("paymentMethod");
+				Date date = myRs.getDate("date");
+				
+				List<OrderedItem> itemList = getOrderedItems(orderId);
+				
+				if (itemList != null) {
+					Order tempOrder = new Order(orderId,inputEmail,itemList,address,paymentMethod,date);
+					orders.add(tempOrder);					
+				}					
+			}				
+			return orders;
+		}
+		finally {
+			close(myConn, myStmt, myRs);
+		}		
+	}
+	
+	public Order getOrder(int orderId) throws Exception{			
+		Order order = null;		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;
+		
+		try {
+			myConn = dataSource.getConnection();
+			
+			String sql = "SELECT * from orders where orderId=" + orderId;
+			
+			myStmt = myConn.createStatement();
+			
+			myRs = myStmt.executeQuery(sql);
+			
+			if (myRs.next()) {		
+				String email = myRs.getString("email");
+				String address = myRs.getString("address");
+				String paymentMethod = myRs.getString("paymentMethod");
+				Date date = myRs.getDate("date");				
+				
+				List<OrderedItem> itemList = getOrderedItems(orderId);	
+				
+				if (itemList != null) {
+					order = new Order(orderId,email,itemList,address,paymentMethod,date);		
+					return order;
+				}
+				return null;				
+			}
+			else 
+				return null;		
+			
+		}
+		finally {
+			close(myConn, myStmt, myRs);
+		}		
+	}
+	
+	public List<OrderedItem> getOrderedItems(int orderId) throws Exception {
+		
+		List<OrderedItem> items = new ArrayList<OrderedItem>();
+		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;			
+		
+		try {
+			myConn = dataSource.getConnection();
+			
+			String sql = "SELECT * from ordered-items where orderId="+orderId;
+			
+			myStmt = myConn.createStatement();
+			
+			myRs = myStmt.executeQuery(sql);
+			
+			while (myRs.next()) {				
+				int productId = myRs.getInt("productId");
+				String size = myRs.getString("size");
+				int qty=myRs.getInt("qty");
+				OrderedItem tempItem = new OrderedItem(orderId,productId, size, qty);
+				items.add(tempItem);								
+			}			
+			return items;
+		}
+		finally {
+			close(myConn, myStmt, myRs);
+		}		
+	}
+		
+	public void addOrder(Order order) throws Exception {		
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		ResultSet myRs = null;
+		int id = 0;
+		
+		try {			
+			myConn = dataSource.getConnection();
+		
+			String sql = "insert into orders "
+					   + "(email, address, paymentMethod, date) "
+					   + "values (?, ?, ?,?)";
+			
+			myStmt = myConn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
+			
+			myStmt.setString(1, order.getEmail());
+			myStmt.setString(2, order.getAddress());
+			myStmt.setString(3, order.getPaymentMethod());
+			myStmt.setDate(4, (java.sql.Date) order.getDateOrdered());			
+			//myStmt.execute();
+			
+			int rowAffected = myStmt.executeUpdate();
+			if(rowAffected == 1)
+			{                
+               myRs = myStmt.getGeneratedKeys();
+                if(myRs.next())
+                    //id = myRs.getInt("orderId");
+                	 id = myRs.getInt(1);
+                addOrderedItems(id,order.getOrderedItems());
+                
+            }		
+			
+			
+		}
+		finally {close(myConn, myStmt, null);}
+	}
+	
+	private void addOrderedItems(int id, List<OrderedItem> orderedItems) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean orderExists(int orderId) throws Exception {
+		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;		
+		
+		try {
+			myConn = dataSource.getConnection();			
+			String sql = "select * from `fashion_n&c`.orders where orderId=" + orderId; 					
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery(sql);			
+			
+			if (myRs.next()) {				
+				return true;
+			}
+			else return false;			
+		}
+		finally {close(myConn, myStmt, myRs);}	
+	}
+	
+	private void close(Connection myConn,Statement myStmt,ResultSet myRs) {
+		try {
+			if(myRs!=null) {
+				myRs.close();
+			}
+			if(myStmt!=null) {
+				myStmt.close();
+			}
+			if(myConn!=null) {
+				myConn.close();
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+}

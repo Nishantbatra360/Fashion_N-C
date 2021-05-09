@@ -27,3 +27,4 @@ function validateInput(event){
 		document.getElementById("orderForm").submit();
 	}
 }
+

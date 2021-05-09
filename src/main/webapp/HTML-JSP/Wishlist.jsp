@@ -20,7 +20,7 @@
 				<c:forEach var="cart" items="${WISHLIST_ITEMS}">
 					<div class="product-card">
 						<div class="product-info">
-							<c:forEach var="product" items="${PRODUCTS}">
+							<c:forEach var="product" items="${PRODUCTS}">							
 								<c:if test="${cart.productId==product.productId }">
 									<img class="product-image" style="margin-right: 10px;"
 										src="${product.image }" />
@@ -42,7 +42,8 @@
 								<option>S</option>
 								<option>M</option>
 								<option>L</option>
-								<option>XL</option>
+								<option>XL</option>							
+								
 							</select> <Label for="qty">qty:</Label> <select name="qty">
 								<option>1</option>
 								<option>2</option>

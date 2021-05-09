@@ -69,14 +69,18 @@ public class ProductControllerServlet extends HttpServlet {
 				filterSearch(request,response);
 				break;
 			case "VIEW-PRODUCT":
-				viewProduct(request,response);	
+				viewProduct(request,response);					
 				break;
 			case "ADD-WISHLIST":
 				addToWishList(request,response);
+				listProducts(request,response);					
 				break;
 			case "ADD-TO-CART":
 				addToCart(request,response);
+				viewProduct(request,response);
+				
 				break;
+				
 			default:				
 				listProducts(request, response);			
 			}				
@@ -129,8 +133,7 @@ public class ProductControllerServlet extends HttpServlet {
 					String name = "guest" + String.valueOf(randomNb);
 					guestEmail = name + "@fashionnc.com";					
 					
-					if (!userDbUtil.userExists(guestEmail)) {
-						userDbUtil.addUser("x4@gmail.com","X4","1234","");
+					if (!userDbUtil.userExists(guestEmail)) {						
 						user = new User(guestEmail,name,"");
 						userDbUtil.addUser(guestEmail,name,guestEmail,""); 						
 						break;			
@@ -154,27 +157,26 @@ public class ProductControllerServlet extends HttpServlet {
 			cartDbUtil.addCart(cart);		
 		
 		carts=cartDbUtil.getCartItems(user.getEmail());	
-		session.setAttribute("CART_COUNT", carts.size());	
+		session.setAttribute("CART_COUNT", carts.size());		
 		
-		/*
 		request.setAttribute("PRODUCT_ID", theId);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
-		dispatcher.forward(request, response);	
-		*/	
+		//RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-View.jsp");
+		//dispatcher.forward(request, response);	
+			
 	}
 	
 	private void addToWishList(HttpServletRequest request, HttpServletResponse response) 
-	throws Exception {
-		
+	throws Exception {	
 		
 		HttpSession session=request.getSession();
 		User user=(User) session.getAttribute("user");
-		String theId = request.getParameter("productId");	
-		request.setAttribute("PRODUCT_ID",theId);
+		String theId = request.getParameter("productId");
+		
+		
 		int productId = Integer.parseInt(theId);
 		
 		if(user==null) {		
-			
+			request.setAttribute("PRODUCT_ID",theId);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/LoginSignup.jsp");
 			dispatcher.forward(request, response);			
 		}		
@@ -186,10 +188,11 @@ public class ProductControllerServlet extends HttpServlet {
 				productDbUtil.addWishlist(wishlist);
 			}
 			System.out.println("Add to wishlist");
+			request.setAttribute("PRODUCT_ID",theId);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-detail.jsp");
 			dispatcher.forward(request, response);
-		}	
-		
+		}		
 	}
 
 	private void viewProduct(HttpServletRequest request, HttpServletResponse response) 
