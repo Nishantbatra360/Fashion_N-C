@@ -65,6 +65,9 @@ public class ProductControllerServlet extends HttpServlet {
 			case "FILTER-TYPE":
 				filterType(request, response);
 				break;
+			case "FILTER-SEARCH":
+				filterSearch(request,response);
+				break;
 			case "VIEW-PRODUCT":
 				viewProduct(request,response);	
 			case "ADD-WISHLIST":
@@ -79,6 +82,16 @@ public class ProductControllerServlet extends HttpServlet {
 			throw new ServletException(exc);
 		}
 	}	
+
+	private void filterSearch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<Product> products=new ArrayList<Product>();
+		String searchFilter=request.getParameter("inputSearch");
+		products=productDbUtil.getProductsBySearch(searchFilter);
+		request.setAttribute("PRODUCT_LIST", products);		
+		System.out.println(products.size());
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/List-products.jsp");
+		dispatcher.forward(request, response);
+	}
 
 	private void addToCart(HttpServletRequest request, HttpServletResponse response) 
 	throws Exception {

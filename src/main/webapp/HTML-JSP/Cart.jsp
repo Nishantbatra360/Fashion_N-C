@@ -86,22 +86,24 @@
 	<div class="order-total-container">
 		<div>
 			<p class="flex-one margin-right">Total MRP</p>
-			<p>Price</p>
+			<p><span>&#36;</span>${price }</p>
 		</div>
 		<div>
 			<p class="flex-one margin-right">Discount on MRP</p>
-			<p>Amount</p>
+			<p>$0</p>
 		</div>
 		<div>
 			<p class="flex-one margin-right">Convenience fee</p>
-			<p>FREE</p>
+			<p><span>&#36;</span>${price*10/100 }</p>
 		</div>
 		<div>
 			<p class="flex-one margin-right">Total amount</p>
-			<p>Price</p>
+			<p><span>&#36;</span>${price+price*10/100 }</p>
 		</div>
-		<input class="input-button green-background" type="button"
+		<form action="OrderConfirmationServlet">
+		<input class="input-button green-background" type="submit"
 			value="Place order" />
+			</form>
 	</div>
 	</c:if>
 	</div>

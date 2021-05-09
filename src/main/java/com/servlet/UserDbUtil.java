@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
+import com.entity.PasswordEncryption;
 import com.entity.User;
 
 public class UserDbUtil {
@@ -103,6 +104,8 @@ public class UserDbUtil {
 		Statement myStmt=null;
 		int rowsAffected=0;
 		
+		password=PasswordEncryption.encrypt(password);
+		
 		try {
 			myConn=dataSource.getConnection();
 			String sql="Insert into users values("+ "\""+email+ "\", "
@@ -111,6 +114,49 @@ public class UserDbUtil {
 			myStmt=myConn.createStatement();
 			rowsAffected=myStmt.executeUpdate(sql);
 			if(rowsAffected>0) {
+				return true;
+			}
+			return false;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		finally {
+			close(myConn,myStmt,null);
+		}
+	}
+	
+	public void changeInfo(String email,String name,String contact) {
+		Connection myConn=null;
+		Statement myStmt=null;
+		
+		try {
+			myConn=dataSource.getConnection();
+			String sql="UPDATE users SET name=\""+name+"\",contact=\""+contact+"\" where email=\""+email+"\"";
+			myStmt=myConn.createStatement();
+			myStmt.executeUpdate(sql);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			close(myConn,myStmt,null);
+		}
+	}
+	
+	public boolean changePassword(String email,String oldPassword,String newPassword) {
+		Connection myConn=null;
+		Statement myStmt=null;
+		
+		oldPassword=PasswordEncryption.encrypt(oldPassword);
+		newPassword=PasswordEncryption.encrypt(newPassword);
+		int rowsAffected=0;
+		
+		try {
+			myConn=dataSource.getConnection();
+			String sql="UPDATE users SET password=\""+newPassword+"\" where email=\""+email+"\" and password=\""+oldPassword+"\"";
+			myStmt=myConn.createStatement();
+			rowsAffected=myStmt.executeUpdate(sql);
+			if(rowsAffected==1) {
 				return true;
 			}
 			return false;

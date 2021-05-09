@@ -1,0 +1,28 @@
+.profile-parent-container{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-top:50px;
+}
+
+.profile-parent-container>div>form>div{
+	margin:20px;
+}
+
+.profile-parent-container input{
+	margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.error-design{
+	text-align: center;
+    background: red;
+    color: white;
+    margin: 0;
+}
+.success-design{
+	text-align: center;
+    background: green;
+    color: white;
+    margin: 0;
+}

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +102,32 @@ public class ProductDbUtil {
 			return products;
 		}
 		finally {close(myConn, myStmt, myRs);}				
+	}
+	
+	public List<Product> getProductsBySearch(String searchStr) throws Exception{
+		List<Product> products = new ArrayList<>();		
+		Connection myConn = null;
+		Statement myStmt = null;
+		ResultSet myRs = null;			
+		try {
+			myConn = dataSource.getConnection();			
+			String sql = "SELECT * FROM `fashion_n&c`.products"
+					+ " WHERE name LIKE \"%"+searchStr+"%\" OR description LIKE \"%"+searchStr+"%\"";					
+			myStmt = myConn.createStatement();
+			myRs = myStmt.executeQuery(sql);			
+			while (myRs.next()) {
+				int theId = myRs.getInt("Id");
+				String theName = myRs.getString("name");				
+				Gender theGender = Gender.valueOf(myRs.getString("gender"));				
+				Double thePrice = Double.parseDouble(myRs.getString("price"));
+				String type=myRs.getString("type");
+				String theImage = myRs.getString("image");				
+				Product tempProduct = new Product(theId,theName,theGender,type,thePrice,theImage);				
+				products.add(tempProduct);					
+			}			
+			return products;
+		}
+		finally {close(myConn, myStmt, myRs);}	
 	}
 	
 	public Product getProductById(String productId) throws Exception {//Get Products by Name			

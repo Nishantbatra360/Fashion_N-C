@@ -92,10 +92,9 @@ public class LoginSignupControllerServlet extends HttpServlet {
 	private void signup(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String email=request.getParameter("email");
 		String password=request.getParameter("password");
-		String encrypt=PasswordEncryption.encrypt(password);
 		String name=request.getParameter("name");
 		String contact=request.getParameter("contact");
-		boolean isAdded=userDbUtil.addUser(email, name, encrypt, contact);
+		boolean isAdded=userDbUtil.addUser(email, name, password, contact);
 		
 		RequestDispatcher requestDispatcher;
 		if(isAdded) {

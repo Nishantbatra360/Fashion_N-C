@@ -10,6 +10,11 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=yes">
 <title>Header</title>
+<script>
+function searchProduct(){
+	document.getElementById("search-form").submit();
+}
+</script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Style.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/Header.css"/>
 </head>
@@ -31,8 +36,11 @@
 
 </div>
 <div class="search-bar-container">
+<form id="search-form" action="${pageContext.request.contextPath}/ProductControllerServlet" method="get">
+<input type="hidden" name="command" value="FILTER-SEARCH"/>
 <input style="flex:1;" type="text" name="inputSearch"/>
-<img src="${pageContext.request.contextPath}/assets/icons/search.svg" height=15pt width=15pt/>
+<img src="${pageContext.request.contextPath}/assets/icons/search.svg" onclick="searchProduct()" height=15pt width=15pt style="cursor:pointer;align-self:center;"/>
+</form>
 </div>
 <div class="header-container">
 <div class="header-item flex-vertical-center profile">
@@ -58,7 +66,7 @@ ${sessionScope.user.name }
 <c:if test="${sessionScope.user!=null }">
 <div class="profile-items-container">
 <c:url var="logout" value="LogoutControllerServlet"/>
-<c:url var="profile" value="${pageContext.request.contextPath}/HTML-JSP/Profile.jsp"/>
+<c:url var="profile" value="/HTML-JSP/Profile.jsp"/>
 
 <a href="${profile }" class="anchor-design customize-font-color">View/Edit Profile</a>
 <a href="${logout }" class="anchor-design customize-font-color">Logout</a>
@@ -72,20 +80,20 @@ ${sessionScope.user.name }
 
 <div class="header-item flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/wishlist.svg" height=30px width=30px/>
-<p class="customize-font-color align-center"><c:url var="displayWishlist" value="WishlistControllerServlet"/>
+<p class="customize-font-color align-center"><c:url var="displayWishlist" value="/WishlistControllerServlet"/>
 <a href="${displayWishlist}">Wishlist</a>
 </p>
 </div>
 
 <div class="header-item">
 <span class="cart-items-count customize-font-color">
-<c:if test="${CART_COUNT>0 }">${CART_COUNT }</c:if>
+<c:if test="${CART_COUNT>0 && sessionScope.user!=null }">${CART_COUNT }</c:if>
 </span>
 
 <div class="flex-vertical-center">
 <img class="align-center" src="${pageContext.request.contextPath}/assets/icons/cart.svg" height=30px width=30px/>
 <p class="customize-font-color align-center">
-<c:url var="displayCart" value="CartControllerServlet"/>
+<c:url var="displayCart" value="/CartControllerServlet"/>
 <a href="${displayCart}">Cart</a>
 </p>
 </div>
