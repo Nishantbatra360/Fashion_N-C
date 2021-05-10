@@ -53,7 +53,12 @@ public class CartControllerServlet extends HttpServlet {
 				session.setAttribute("CART_COUNT",carts.size());
 			}
 			else if(command.equals("move to wishlist")) {
-				
+				cartDbUtil.removeItem(user.getEmail(),productId);
+				List<Cart> carts=cartDbUtil.getCartItems(user.getEmail());
+				session.setAttribute("CART_COUNT",carts.size());
+				Wishlist wishlist = new Wishlist(user.getEmail(),productId);
+				ProductDbUtil productDbUtil=new ProductDbUtil(dataSource);
+				productDbUtil.addWishlist(wishlist);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

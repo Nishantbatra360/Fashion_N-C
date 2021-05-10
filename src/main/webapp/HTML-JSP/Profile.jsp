@@ -38,6 +38,7 @@ ${sessionScope.user.name }'s Profile
 <div class="profile-parent-container">
 <div>
 <form id="save-form" action="${pageContext.request.contextPath}/ProfileControllerServlet" method="post">
+<input type="hidden" name="command" value="Save changes"/>
 <div>
 <label for="email">Email:-</label>
 <input name="email" type="text" disabled="disabled" value="${sessionScope.user.email }"/>
@@ -50,7 +51,7 @@ ${sessionScope.user.name }'s Profile
 <label for="number">Contact:-</label>
 <input id="number" name="number" type="number" value="${sessionScope.user.contact }"/>
 </div>
-<input type="submit" name="command" value="Save changes" onclick="validateChanges(event)"/>
+<input type="submit" value="Save changes" onclick="validateChanges(event)"/>
 </form>
 </div>
 <div>

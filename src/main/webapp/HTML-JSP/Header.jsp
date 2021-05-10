@@ -60,13 +60,13 @@ ${sessionScope.user.name }
 
 <c:if test="${sessionScope.user==null }">
 <div class="profile-items-container">
-<a href="${pageContext.request.contextPath}/HTML-JSP/LoginSignup.jsp" class="anchor-design customize-font-color">Login/ Signup</a>
+<a href="http://localhost:8080/Fashion_N_C/HTML-JSP/LoginSignup.jsp" class="anchor-design customize-font-color">Login/ Signup</a>
 </div>
 </c:if>
 <c:if test="${sessionScope.user!=null }">
 <div class="profile-items-container">
-<c:url var="logout" value="LogoutControllerServlet"/>
-<c:url var="profile" value="/HTML-JSP/Profile.jsp"/>
+<c:url var="logout" value="http://localhost:8080/Fashion_N_C/LogoutControllerServlet"/>
+<c:url var="profile" value="http://localhost:8080/Fashion_N_C/HTML-JSP/Profile.jsp"/>
 
 <a href="${profile }" class="anchor-design customize-font-color">View/Edit Profile</a>
 <a href="${logout }" class="anchor-design customize-font-color">Logout</a>
