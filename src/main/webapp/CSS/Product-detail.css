@@ -57,3 +57,8 @@ p{
 .wishlist-button-1 {
 	width: 150px;
 }
+
+.order-container p{
+	text-align: center;
+	margin: 10px;
+}

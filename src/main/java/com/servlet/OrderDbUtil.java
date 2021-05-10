@@ -143,18 +143,22 @@ public class OrderDbUtil {
 			myStmt.setString(1, email);
 			myStmt.setString(2, address);
 			myStmt.setString(3, paymentMethod);
-			myStmt.setDate(4, (java.sql.Date) new java.util.Date());			
-			//myStmt.execute();
+			myStmt.setDate(4, (java.sql.Date) new java.sql.Date(0));			
+			myStmt.execute();
 			
-			int rowAffected = myStmt.executeUpdate();
-			if(rowAffected == 1)
-			{                
-               myRs = myStmt.getGeneratedKeys();
-                if(myRs.next())
-                    //id = myRs.getInt("orderId");
-                	 id = myRs.getInt(1);   
-            }	
-			return id;			
+//			int rowAffected = myStmt.executeUpdate();
+//			if(rowAffected == 1)
+//			{                
+//               myRs = myStmt.getGeneratedKeys();
+//                if(myRs.next())
+//                    id = myRs.getInt("orderId");
+//                	 id = myRs.getInt(1);   
+//            }	
+			sql="SELECT * FROM orders ORDER BY orderId desc";
+			Statement myStmt2=myConn.createStatement();
+			myRs=myStmt2.executeQuery(sql);
+			myRs.next();
+			return myRs.getInt("orderId");			
 		}
 		finally {close(myConn, myStmt, null);}
 	}
