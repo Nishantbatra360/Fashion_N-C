@@ -1,6 +1,7 @@
 package com.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,23 +58,28 @@ public class ProductControllerServlet extends HttpServlet {
 			switch (theCommand) {
 			
 			case "LIST":			
-				listProducts(request, response);				
+				getWishlistedItems(request, response);
+				listProducts(request, response);	
 				break;			
 			case "FILTER-GENDER":
+				getWishlistedItems(request, response);
 				filterGender(request, response);
 				break;
 			case "FILTER-TYPE":
+				getWishlistedItems(request, response);
 				filterType(request, response);
 				break;
 			case "FILTER-SEARCH":
+				getWishlistedItems(request, response);
 				filterSearch(request,response);
 				break;
 			case "VIEW-PRODUCT":
 				viewProduct(request,response);					
 				break;
 			case "ADD-WISHLIST":
+				getWishlistedItems(request, response);
 				addToWishList(request,response);
-				listProducts(request,response);					
+				listProducts(request,response);			
 				break;
 			case "ADD-TO-CART":
 				addToCart(request,response);
@@ -181,17 +187,15 @@ public class ProductControllerServlet extends HttpServlet {
 			dispatcher.forward(request, response);			
 		}		
 		else {
+			System.out.println("In else");
 			Wishlist wishlist = new Wishlist(user.getEmail(),productId);
-			if (!productDbUtil.wishlistExists(wishlist))
-			{
 				System.out.println("adding");
 				productDbUtil.addWishlist(wishlist);
-			}
 			System.out.println("Add to wishlist");
 			request.setAttribute("PRODUCT_ID",theId);
 			
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-detail.jsp");
-			dispatcher.forward(request, response);
+			//RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Product-detail.jsp");
+			//dispatcher.forward(request, response);
 		}		
 	}
 
@@ -238,9 +242,20 @@ public class ProductControllerServlet extends HttpServlet {
 		
 		List<Product> products = productDbUtil.getAll();
 		
-		request.setAttribute("PRODUCT_LIST", products);					
+		request.setAttribute("PRODUCT_LIST", products);		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/List-products.jsp");
 		dispatcher.forward(request, response);		
+	}
+	
+	private void getWishlistedItems(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		WishlistDbUtil wishlistDbUtil=new WishlistDbUtil(dataSource);
+		HttpSession session=request.getSession();
+		User user=(User)session.getAttribute("user");
+		List<Wishlist> wishlists=new ArrayList<Wishlist>();
+		if(user!=null) {
+			wishlists=wishlistDbUtil.getWishlistedItems(user.getEmail());
+		}
+		request.setAttribute("WISHLISTED_ITEMS", wishlists);
 	}
 	
 }

@@ -26,13 +26,24 @@ ${gen }
 				
 				<button type="submit" name="command" value="VIEW-PRODUCT" 
 						class="product-button" > 
-						<img src="${tempProduct.image }" width="200px" height="240px" /> 
+						<img src="${tempProduct.image }" width="200px" height="240px" style="cursor:pointer;" /> 
 						</button>
 			    <button type="submit" name="command" value="ADD-WISHLIST" 
-			    		class="wishlist-button" >WISHLIST</button>
+			    		class="wishlist-button" >
+			    		<c:set var="isPrinted" value="false"/>
+			    		<c:forEach var="wishlistedItem" items="${WISHLISTED_ITEMS}">
+			    		<c:if test="${wishlistedItem.productId==tempProduct.productId}">
+			    		<c:set var="isPrinted" value="true"/>
+			    		Added to wishlist
+			    		</c:if>
+			    		</c:forEach>
+			    		<c:if test="${wishlistedItem.productId!=tempProduct.productId && isPrinted==false }">
+			    		Wishlist
+			    		</c:if>
+			    		</button>
 			    						
 		        <div class="product-name">${tempProduct.productName }</div>
-				<div class="price">$${tempProduct.price }</div>	
+				<div class="price">&#36;${tempProduct.price }</div>	
 				</Form>				
 				
 		</div>				 				 

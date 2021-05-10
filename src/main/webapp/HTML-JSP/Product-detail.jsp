@@ -26,7 +26,7 @@ ${product.productName }
 			
 		<div class="dividerthin"></div>
 				
-		<h1>Rs. ${product.price }" </h1>
+		<h1>&#36; ${product.price }" </h1>
 		<p>inclusive of all taxes</p>
 				
 		<Form action="${pageContext.request.contextPath}/ProductControllerServlet" method="GET">

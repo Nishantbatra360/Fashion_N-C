@@ -259,6 +259,7 @@ public class ProductDbUtil {
 	}
 	
 	public void addWishlist(Wishlist theWishlist) throws Exception {
+		System.out.println("sdsd");
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		
