@@ -66,7 +66,9 @@ public class OrderControllerServlet extends HttpServlet {
 				break;
 			case "VIEW-ORDER":  //VIEW ORDER BY ORDER ID
 				viewOrder(request, response);
-				break;		
+				break;	
+			case "place-order":
+				navigateToConfirmation(request,response);
 				
 			default:				
 				listOrders(request, response);			
@@ -76,6 +78,21 @@ public class OrderControllerServlet extends HttpServlet {
 			throw new ServletException(exc);
 		}
 	}	
+
+	private void navigateToConfirmation(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ProductDbUtil productDbUtil=new ProductDbUtil(dataSource);
+		List<Product> products=productDbUtil.getAll();
+		CartDbUtil cartDbUtil=new CartDbUtil(dataSource);
+		HttpSession session=request.getSession();
+		User user=(User)session.getAttribute("user");
+		List<Cart> carts=cartDbUtil.getCartItems(user.getEmail());
+		request.setAttribute("CART_ITEMS", carts);
+		request.setAttribute("PRODUCTS", products);
+		
+		RequestDispatcher requestDispatcher=request.getRequestDispatcher("HTML-JSP/OrderConfirmation.jsp");
+		requestDispatcher.forward(request, response);
+		
+	}
 
 	private void viewOrder(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		HttpSession session=request.getSession();

@@ -101,6 +101,7 @@
 			<p><span>&#36;</span>${price+price*10/100 }</p>
 		</div>
 		<form action="OrderControllerServlet">
+		<input type="hidden" name="command" value="place-order"/>
 		<input class="input-button green-background" type="submit"
 			value="Place order" />
 			</form>

@@ -46,7 +46,8 @@ margin-top:50px;
 		<p>Order total: ${price}</p>
 		<h3>Payment method:-</h3>
 		<p>Cash on delivery</p>
-		<input type="submit" name="command" onclick="validateInput(event)" value="Place order"/>
+		<input type="hidden" name="command" value="CREATE-ORDER">
+		<input type="submit"  onclick="validateInput(event)" value="Place order"/>
 	</form>
 	</div>
 	<jsp:include page="Footer.jsp"></jsp:include>
