@@ -13,6 +13,7 @@ public class Order {
 	private Date dateOrdered;
 	
 
+	
 	public Order(int orderId, String email,List<OrderedItem> orderedItems,String address, String paymentMethod, Date dateOrdered) {
 		this.orderId = orderId;
 		this.email = email;
@@ -22,22 +23,36 @@ public class Order {
 		this.dateOrdered = dateOrdered;
 	}
 	
+	/*
 	public Order(int orderId, String email,List<OrderedItem> orderedItems,String address, String paymentMethod) {
 		this.orderId = orderId;
 		this.email = email;
 		this.orderedItems = orderedItems;
 		this.address = address;
-		this.paymentMethod = paymentMethod;	
-		this.dateOrdered = new java.util.Date();
-	}
+		this.paymentMethod = paymentMethod;			
+	}*/
 	
 	public Order(String email,List<OrderedItem> orderedItems,String address, String paymentMethod) {		
 		this.email = email;
 		this.orderedItems = orderedItems;
 		this.address = address;
-		this.paymentMethod = paymentMethod;	
-		this.dateOrdered = new java.util.Date();
+		this.paymentMethod = paymentMethod;			
 	}
+	
+	public Order(String email,String address, String paymentMethod)	{
+		this.email = email;		
+		this.address = address;
+		this.paymentMethod = paymentMethod;					
+	}
+	
+	public Order(int orderId, String email,String address, String paymentMethod, Date dateOrdered )	{
+		this.orderId = orderId;
+		this.email = email;		
+		this.address = address;
+		this.paymentMethod = paymentMethod;	
+		this.dateOrdered = dateOrdered;
+	}
+	
 	
 	public int getOrderId() {
 		return orderId;

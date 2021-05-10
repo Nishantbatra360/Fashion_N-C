@@ -100,7 +100,7 @@
 			<p class="flex-one margin-right">Total amount</p>
 			<p><span>&#36;</span>${price+price*10/100 }</p>
 		</div>
-		<form action="OrderConfirmationServlet">
+		<form action="OrderControllerServlet">
 		<input class="input-button green-background" type="submit"
 			value="Place order" />
 			</form>

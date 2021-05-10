@@ -23,16 +23,16 @@ import com.entity.Stock;
 import com.entity.User;
 
 /**
- * Servlet implementation class OrderConfirmationServlet
+ * Servlet implementation class OrderControllerServlet
  */
-@WebServlet("/OrderConfirmationServlet")
+@WebServlet("/OrderControllerServlet")
 public class OrderControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private OrderDbUtil orderDbUtil;
 	String theCommand = null;
 	
-	@Resource(name="jdbc/fashion_nc")
+	@Resource(name="jdbc/fashion_nc")  
 	private DataSource dataSource;
 	
 	@Override
@@ -53,18 +53,18 @@ public class OrderControllerServlet extends HttpServlet {
 			theCommand = request.getParameter("command");
 											
 			if (theCommand == null) {
-				theCommand = "VIEW-ORDERS";
+				theCommand = "LIST-ORDERS";
 			}			
 						
 			switch (theCommand) {
 			
-			case "LIST-ORDERS":			
+			case "LIST-ORDERS":		//GET ALL ORDERS OF A USER	(EMAIL)
 				listOrders(request, response);			
 				break;			
 			case "CREATE-ORDER":
 				createOrder(request, response);
 				break;
-			case "VIEW-ORDER":
+			case "VIEW-ORDER":  //VIEW ORDER BY ORDER ID
 				viewOrder(request, response);
 				break;		
 				
@@ -78,8 +78,16 @@ public class OrderControllerServlet extends HttpServlet {
 	}	
 
 	private void viewOrder(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		// TODO Auto-generated method stub
+		HttpSession session=request.getSession();
+		User user=(User) session.getAttribute("user");
+		String orderId = request.getParameter("orderId");	
 		
+		Order order = orderDbUtil.getOrder(Integer.parseInt(orderId));
+		List<OrderedItem> items = orderDbUtil.getOrderedItems(Integer.parseInt(orderId));
+		request.setAttribute("ORDER", order);
+		request.setAttribute("ORDERED_ITEMs", items);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Order-detail.jsp");
+		dispatcher.forward(request, response);		
 	}
 
 	private void createOrder(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -92,41 +100,39 @@ public class OrderControllerServlet extends HttpServlet {
 		String postalCode = (String)request.getAttribute("postal");		
 		String address = streetAddress + "," + city + "," + province + "," + postalCode;
 		String paymentMethod = "Cash On Delivery";	
-		
+		int returnedOrderId = 0;
 		
 		List<Cart> cartItems = new ArrayList<Cart>();
 		List<OrderedItem> orderedItems = new ArrayList<OrderedItem>();
 		CartDbUtil cartDbUtil = new CartDbUtil(dataSource);
 		
 		if (user == null) {			
-			response.sendRedirect("/HTML-JSP/LoginSignup.jsp");
-			//RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/LoginSignup.jsp");
-			//dispatcher.forward(request, response);	
-		} else {
-			
-			cartItems = cartDbUtil.getCartItems(user.getEmail());
-			if (cartItems !=null)
-			{
-				for(Cart cart : cartItems){
-					OrderedItem item = new OrderedItem(cart.getProductId(),cart.getSize(),cart.getQty());
-					orderedItems.add(item);
-					}
+			response.sendRedirect("/HTML-JSP/LoginSignup.jsp");				
+		} 
 				
-				Order order = new Order(user.getEmail(),orderedItems,address,paymentMethod);	
-				int returnedOrderId = orderDbUtil.addOrder(order);
-				if (returnedOrderId != 0) {
-					
-				}
-				
-			}
+		cartItems = cartDbUtil.getCartItems(user.getEmail());
 		
+		if (cartItems !=null)
+		{
+			returnedOrderId = orderDbUtil.addOrder(user.getEmail(),address,paymentMethod);
 			
-			
-			
-			
+			if (returnedOrderId == 0)
+			{
+				System.out.println("Order not created succesffully");
+			}
+			else {
+				for(Cart cart : cartItems) {					
+					orderDbUtil.addOrderedItem(returnedOrderId, cart);					
+				}
+				cartDbUtil.deleteCartItems(user.getEmail());
+			}
 		}
 		
-		
+		Order order = orderDbUtil.getOrder(returnedOrderId);
+				
+		request.setAttribute("ORDER",order);					
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/Order-detail.jsp");
+		dispatcher.forward(request, response);		
 	}
 
 	private void listOrders(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -143,7 +149,7 @@ public class OrderControllerServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("ORDERS", orders);	
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/List-Orders.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/HTML-JSP/List-orders.jsp");
 		dispatcher.forward(request, response);		
 	}
 

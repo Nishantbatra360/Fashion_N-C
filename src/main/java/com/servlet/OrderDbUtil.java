@@ -44,7 +44,7 @@ public class OrderDbUtil {
 				List<OrderedItem> itemList = getOrderedItems(orderId);
 				
 				if (itemList != null) {
-					Order tempOrder = new Order(orderId,inputEmail,itemList,address,paymentMethod,date);
+					Order tempOrder = new Order(orderId,inputEmail,itemList,address,paymentMethod,date);					
 					orders.add(tempOrder);					
 				}					
 			}				
@@ -79,7 +79,8 @@ public class OrderDbUtil {
 				List<OrderedItem> itemList = getOrderedItems(orderId);	
 				
 				if (itemList != null) {
-					order = new Order(orderId,email,itemList,address,paymentMethod,date);		
+					order = new Order(orderId,email,itemList,address,paymentMethod,date);
+					//order = new Order(orderId,email,address,paymentMethod,date);
 					return order;
 				}
 				return null;				
@@ -104,7 +105,7 @@ public class OrderDbUtil {
 		try {
 			myConn = dataSource.getConnection();
 			
-			String sql = "SELECT * from ordered-items where orderId="+orderId;
+			String sql = "SELECT * from `ordered-items` where orderId="+orderId;
 			
 			myStmt = myConn.createStatement();
 			
@@ -124,7 +125,7 @@ public class OrderDbUtil {
 		}		
 	}
 		
-	public void addOrder(Order order) throws Exception {		
+	public int addOrder(String email,String address,String paymentMethod) throws Exception {		
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		ResultSet myRs = null;
@@ -139,10 +140,10 @@ public class OrderDbUtil {
 			
 			myStmt = myConn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);			
 			
-			myStmt.setString(1, order.getEmail());
-			myStmt.setString(2, order.getAddress());
-			myStmt.setString(3, order.getPaymentMethod());
-			myStmt.setDate(4, (java.sql.Date) order.getDateOrdered());			
+			myStmt.setString(1, email);
+			myStmt.setString(2, address);
+			myStmt.setString(3, paymentMethod);
+			myStmt.setDate(4, (java.sql.Date) new java.util.Date());			
 			//myStmt.execute();
 			
 			int rowAffected = myStmt.executeUpdate();
@@ -151,18 +152,35 @@ public class OrderDbUtil {
                myRs = myStmt.getGeneratedKeys();
                 if(myRs.next())
                     //id = myRs.getInt("orderId");
-                	 id = myRs.getInt(1);
-                addOrderedItems(id,order.getOrderedItems());
-                
-            }		
-			
-			
+                	 id = myRs.getInt(1);   
+            }	
+			return id;			
 		}
 		finally {close(myConn, myStmt, null);}
 	}
 	
-	private void addOrderedItems(int id, List<OrderedItem> orderedItems) throws Exception {
-		// TODO Auto-generated method stub
+	public boolean addOrderedItem(int orderId, Cart item) throws Exception {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;		
+		
+		try {			
+			myConn = dataSource.getConnection();
+		
+			String sql = "insert into `ordered-items` "
+					   + "(orderId, productId, size, qty) "
+					   + "values (?, ?, ?,?)";
+			
+			myStmt = myConn.prepareStatement(sql);						
+			
+			myStmt.setInt(1, orderId);
+			myStmt.setInt(2, item.getProductId());
+			myStmt.setString(3, item.getSize());
+			myStmt.setInt(4, item.getQty());	
+			
+			int rowAffected = myStmt.executeUpdate();		
+			return (rowAffected > 0);	
+		}
+		finally {close(myConn, myStmt, null);}
 		
 	}
 

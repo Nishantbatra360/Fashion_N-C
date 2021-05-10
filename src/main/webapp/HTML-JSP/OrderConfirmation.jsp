@@ -29,6 +29,7 @@ margin-top:50px;
 <jsp:include page="Header.jsp"></jsp:include>
 <div class="order-container">
 	<form id="orderForm" class="form-design" action="${pageContext.request.contextPath}/OrderControllerServlet">
+		<input type="hidden" name="command" value="CREATE-ORDER"/>		
 		<label for="streetAddress">Enter street address:</label> <input
 			type="text" id="streetAddress" name="streetAddress" /> <label for="city">Enter
 			city:</label> <input type="text" id="city" name="city" /> <label for="province">Enter

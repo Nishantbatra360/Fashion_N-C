@@ -93,6 +93,26 @@ public class CartDbUtil {
 		finally {close(myConn, myStmt, null);}
 	}
 	
+	public void deleteCartItems(String email) throws Exception {
+		
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		
+		try {			
+			myConn = dataSource.getConnection();
+		
+			String sql = "delete from carts where email=?";
+					   
+			myStmt = myConn.prepareStatement(sql);			
+			
+			myStmt.setString(1, email);			
+			
+			myStmt.executeUpdate();
+		}
+		finally {close(myConn, myStmt, null);}
+		
+	}
+	
 	public boolean cartExists(Cart cart) throws Exception {
 		
 		Connection myConn = null;
@@ -130,6 +150,8 @@ public class CartDbUtil {
 			e.printStackTrace();
 		}
 	}
+
+	
 	
 	
 	
